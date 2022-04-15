@@ -22,7 +22,7 @@ export class Parser {
     return this.Program();
   }
 
-  private eat(tokenType: TokenType) {
+  public eatToken(tokenType: TokenType) {
     // console.log('Eating: ', tokenType);
 
     const token = this.lookAhead;
@@ -50,14 +50,14 @@ export class Parser {
   private Block() {
     let expressions = [];
 
-    this.eat('{');
+    this.eatToken('{');
 
     while (ExpressionStartingTokens.includes(this.lookAhead!.type)) {
       const expr = this.Expression();
       expressions.push(expr);
     }
 
-    this.eat('}');
+    this.eatToken('}');
 
     return {
       type: 'ExpressionBlock',
@@ -66,7 +66,7 @@ export class Parser {
   }
 
   private Condition() {
-    const token = this.eat('Condition');
+    const token = this.eatToken('Condition');
 
     return {
       type: 'Condition',
@@ -90,7 +90,7 @@ export class Parser {
   }
 
   private Identifier() {
-    const token = this.eat('Identifier');
+    const token = this.eatToken('Identifier');
 
     return {
       type: 'Identifier',
@@ -99,11 +99,11 @@ export class Parser {
   }
 
   private Instruction() {
-    const token = this.eat('InstructionIdentifier');
+    const token = this.eatToken('InstructionIdentifier');
 
-    this.eat('(');
-    this.eat(')');
-    this.eat(';');
+    this.eatToken('(');
+    this.eatToken(')');
+    this.eatToken(';');
 
     return {
       type: 'Instruction',
@@ -112,12 +112,12 @@ export class Parser {
   }
 
   private Iterate() {
-    this.eat('Iterate');
-    this.eat('(');
+    this.eatToken('Iterate');
+    this.eatToken('(');
 
     const value = this.NumberExpression();
 
-    this.eat(')');
+    this.eatToken(')');
 
     const body = this.lookAhead!.value === '{'
       ? this.Block()
@@ -131,18 +131,18 @@ export class Parser {
   }
 
   private Method() {
-    this.eat('MethodType');
+    this.eatToken('MethodType');
 
-    const token = this.eat('Identifier');
+    const token = this.eatToken('Identifier');
 
-    this.eat('(');
+    this.eatToken('(');
 
     let param = null;
     if (this.lookAhead!.type !== ')') {
       param = this.Identifier();
     }
 
-    this.eat(')');
+    this.eatToken(')');
 
     const body = this.Block();
 
@@ -155,16 +155,16 @@ export class Parser {
   }
 
   private MethodCall() {
-    const token = this.eat('Identifier');
+    const token = this.eatToken('Identifier');
 
-    this.eat('(');
+    this.eatToken('(');
 
     const argument = this.lookAhead!.type !== ')' 
       ? this.NumberExpression()
       : null;
 
-    this.eat(')');
-    this.eat(';');
+    this.eatToken(')');
+    this.eatToken(';');
 
     return {
       type: 'MethodCall',
@@ -174,7 +174,7 @@ export class Parser {
   }
 
   private Number() {
-    const token = this.eat('Number');
+    const token = this.eatToken('Number');
 
     return {
       type: 'Number',
@@ -196,13 +196,13 @@ export class Parser {
   }
 
   private NumberOperation() {
-    const token = this.eat('NumberOperator');
+    const token = this.eatToken('NumberOperator');
 
-    this.eat('(');
+    this.eatToken('(');
 
     const argument = this.NumberExpression();
 
-    this.eat(')');
+    this.eatToken(')');
 
     return {
       type: 'NumberExpression',
@@ -212,14 +212,14 @@ export class Parser {
   }
 
   private Return() {
-    this.eat('Return');
+    this.eatToken('Return');
 
     let value = null;
     if (this.lookAhead!.type !== ';') {
       value = this.NumberExpression();
     }      
 
-    this.eat(';');
+    this.eatToken(';');
 
     return {
       type: 'Return',
@@ -228,16 +228,16 @@ export class Parser {
   }
 
   private While() {
-    this.eat('While');
+    this.eatToken('While');
   }
 
   private Zero() {
-    this.eat('Zero');
-    this.eat('(');
+    this.eatToken('Zero');
+    this.eatToken('(');
 
     const argument = this.NumberExpression();
 
-    this.eat(')');
+    this.eatToken(')');
 
     return {
       type: 'Zero',
