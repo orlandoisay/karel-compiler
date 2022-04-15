@@ -1,0 +1,49 @@
+{
+  "type": "Program",
+  "body": {
+    "type": "Method",
+    "name": "atsa",
+    "param": null,
+    "body": {
+      "type": "ExpressionBlock",
+      "expressions": [
+        {
+          "type": "MethodCall",
+          "method": "some",
+          "argument": {
+            "type": "NumberExpression",
+            "operation": "pred",
+            "argument": {
+              "type": "NumberExpression",
+              "operation": "pred",
+              "argument": {
+                "type": "Number",
+                "value": 5
+              }
+            }
+          }
+        },
+        {
+          "type": "MethodCall",
+          "method": "moveAllBeeper",
+          "argument": null
+        },
+        {
+          "type": "Instruction",
+          "name": "turnleft"
+        },
+        {
+          "type": "Return",
+          "value": null
+        },
+        {
+          "type": "Return",
+          "value": {
+            "type": "Identifier",
+            "value": "sdf"
+          }
+        }
+      ]
+    }
+  }
+}
