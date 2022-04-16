@@ -56,7 +56,7 @@ interface IterateNode extends ExpressionNode {
 
 interface MethodNode {
   type: 'Method',
-  name: string,
+  name: IdentifierNode,
   param: IdentifierNode | null,
   body: BlockNode,
 }
@@ -257,7 +257,7 @@ export class Parser {
   private Method(): MethodNode {
     this.eatToken('MethodType');
 
-    const token = this.eatToken('Identifier');
+    const name = this.eatNode('Identifier') as IdentifierNode;
 
     this.eatToken('(');
 
@@ -272,7 +272,7 @@ export class Parser {
 
     return {
       type: 'Method',
-      name: token.value,
+      name,
       param,
       body,
     };
