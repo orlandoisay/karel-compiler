@@ -113,6 +113,16 @@ export class Parser {
     return this.Program();
   }
 
+  private getLookAheadType(): TokenType {
+    const token = this.lookAhead;
+
+    if (token == null) {
+      throw new SyntaxError('Unexpected EOF');
+    }
+
+    return token.type;
+  }
+
   private eatToken(tokenType: TokenType) {
     const token = this.lookAhead;
 
@@ -164,7 +174,7 @@ export class Parser {
 
     this.eatToken('{');
 
-    while (ExpressionStartingTokens.includes(this.lookAhead!.type)) {
+    while (ExpressionStartingTokens.includes(this.getLookAheadType())) {
       const exp = this.eatNode('Expression') as ExpressionNode;
       expressions.push(exp);
     }
@@ -187,7 +197,7 @@ export class Parser {
   }
   
   private Expression(): ExpressionNode {
-    switch (this.lookAhead!.type) {
+    switch (this.getLookAheadType()) {
       case 'Identifier':
         return this.MethodCall();
       case 'InstructionIdentifier':
@@ -232,7 +242,7 @@ export class Parser {
     
     this.eatToken(')');
 
-    const body: BlockNode | ExpressionNode = this.lookAhead!.value === '{'
+    const body: BlockNode | ExpressionNode = this.getLookAheadType() === '{'
       ? this.eatNode('Block') as BlockNode
       : this.eatNode('Expression') as ExpressionNode;
 
@@ -252,7 +262,7 @@ export class Parser {
     this.eatToken('(');
 
     let param: IdentifierNode | null = null;
-    if (this.lookAhead!.type !== ')') {
+    if (this.getLookAheadType() !== ')') {
       param = this.eatNode('Identifier') as IdentifierNode;
     }
 
@@ -273,7 +283,7 @@ export class Parser {
 
     this.eatToken('(');
 
-    const argument: NumberExpressionNode | null = this.lookAhead!.type !== ')' 
+    const argument: NumberExpressionNode | null = this.getLookAheadType() !== ')' 
       ? this.eatNode('NumberExpression') as NumberExpressionNode
       : null;
 
@@ -300,7 +310,7 @@ export class Parser {
   private NumberExpression(): NumberExpressionNode {
     let value: IdentifierNode | NumberNode | NumberOperationNode;
 
-    switch (this.lookAhead!.type) {
+    switch (this.getLookAheadType()) {
       case 'Identifier': {
         value = this.eatNode('Identifier') as IdentifierNode;
         break;
@@ -343,7 +353,7 @@ export class Parser {
     this.eatToken('Return');
 
     let value: NumberExpressionNode | null = null;
-    if (this.lookAhead!.type !== ';') {
+    if (this.getLookAheadType() !== ';') {
       value = this.eatNode('NumberExpression') as NumberExpressionNode;
     }      
 
