@@ -5,42 +5,80 @@
     "name": "atsa",
     "param": null,
     "body": {
-      "type": "ExpressionBlock",
+      "type": "Block",
       "expressions": [
         {
-          "type": "MethodCall",
+          "type": "Expression",
+          "name": "MethodCall",
           "method": "some",
           "argument": {
             "type": "NumberExpression",
-            "operation": "pred",
-            "argument": {
-              "type": "NumberExpression",
-              "operation": "pred",
+            "value": {
+              "type": "NumberOperation",
+              "operator": "pred",
               "argument": {
-                "type": "Number",
-                "value": 5
+                "type": "NumberExpression",
+                "value": {
+                  "type": "NumberOperation",
+                  "operator": "pred",
+                  "argument": {
+                    "type": "NumberExpression",
+                    "value": {
+                      "type": "Number",
+                      "value": 5
+                    }
+                  }
+                }
               }
             }
           }
         },
         {
-          "type": "MethodCall",
+          "type": "Expression",
+          "name": "MethodCall",
           "method": "moveAllBeeper",
           "argument": null
         },
         {
-          "type": "Instruction",
-          "name": "turnleft"
+          "type": "Expression",
+          "name": "Instruction",
+          "instruction": "turnleft"
         },
         {
-          "type": "Return",
+          "type": "Expression",
+          "name": "Return",
           "value": null
         },
         {
-          "type": "Return",
+          "type": "Expression",
+          "name": "Return",
           "value": {
-            "type": "Identifier",
-            "value": "sdf"
+            "type": "NumberExpression",
+            "value": {
+              "type": "Identifier",
+              "value": "sdf"
+            }
+          }
+        },
+        {
+          "type": "Expression",
+          "name": "Iterate",
+          "argument": {
+            "type": "NumberExpression",
+            "value": {
+              "type": "Number",
+              "value": 20
+            }
+          },
+          "body": {
+            "type": "Block",
+            "expressions": [
+              {
+                "type": "Expression",
+                "name": "Instruction",
+                "instruction": "turnleft"
+              }
+            ]
           }
         }
       ]

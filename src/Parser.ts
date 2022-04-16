@@ -1,8 +1,99 @@
 import { 
+  NumberOperatorType,
   Token,
   Tokenizer,
   TokenType,
 } from "./Tokenizer";
+
+
+
+type NodeType = 
+  'Block' |
+  'Condition' |
+  'Expression' |
+  'Identifier' |
+  'Instruction' |
+  'Iterate' |
+  'Method' |
+  'MethodCall' |
+  'Number' |
+  'NumberExpression' |
+  'NumberOperation' |
+  'Return' |
+  'Zero';
+
+
+interface BlockNode {
+  type: 'Block',
+  expressions: any[],
+}
+
+interface ConditionNode {
+  type: 'Condition',
+  value: string,
+}
+
+interface ExpressionNode {
+  type: 'Expression',
+  name: string,
+}
+
+interface IdentifierNode {
+  type: 'Identifier',
+  value: string,
+}
+
+interface InstructionNode extends ExpressionNode {
+  name: 'Instruction',
+  instruction: string,
+}
+
+interface IterateNode extends ExpressionNode {
+  name: 'Iterate',
+  argument: NumberExpressionNode,
+  body: BlockNode | ExpressionNode,
+}
+
+interface MethodNode {
+  type: 'Method',
+  name: string,
+  param: IdentifierNode | null,
+  body: BlockNode,
+}
+
+interface MethodCallNode extends ExpressionNode {
+  name: 'MethodCall',
+  method: string,
+  argument: NumberExpressionNode | null,
+}
+
+interface NumberNode {
+  type: 'Number',
+  value: number,
+}
+
+interface NumberExpressionNode { 
+  type: 'NumberExpression',
+  value: IdentifierNode | NumberNode | NumberOperationNode,
+}
+
+interface NumberOperationNode {
+  type: 'NumberOperation',
+  operator: NumberOperatorType,
+  argument: NumberExpressionNode,
+}
+
+interface ReturnNode extends ExpressionNode {
+  name: 'Return',
+  value: NumberExpressionNode | null,
+}
+
+interface ZeroNode {
+  type: 'Zero',
+  argument: NumberExpressionNode,
+}
+
+
 
 const ExpressionStartingTokens: TokenType[] = [
   'Identifier',
@@ -22,9 +113,7 @@ export class Parser {
     return this.Program();
   }
 
-  public eatToken(tokenType: TokenType) {
-    // console.log('Eating: ', tokenType);
-
+  private eatToken(tokenType: TokenType) {
     const token = this.lookAhead;
 
     if (token == null) {
@@ -40,32 +129,55 @@ export class Parser {
     return token;
   }
 
+  private eatNode(nodeType: NodeType) {
+    switch (nodeType) {
+      case 'Block':
+        return this.Block();
+      case 'Expression':
+        return this.Expression();
+      case 'Identifier':
+        return this.Identifier();
+      case 'Instruction':
+        return this.Instruction();
+      case 'Method':
+        return this.Method();
+      case 'MethodCall':
+        return this.MethodCall();
+      case 'Number':
+        return this.Number();
+      case 'NumberExpression':
+        return this.NumberExpression();
+      case 'NumberOperation':
+        return this.NumberOperation();
+    }
+  }
+
   private Program() {
     return {
       type: 'Program',
-      body: this.Method(),
+      body: this.eatNode('Method'),
     };
   }
 
-  private Block() {
-    let expressions = [];
+  private Block(): BlockNode {
+    let expressions: ExpressionNode[] = [];
 
     this.eatToken('{');
 
     while (ExpressionStartingTokens.includes(this.lookAhead!.type)) {
-      const expr = this.Expression();
-      expressions.push(expr);
+      const exp = this.eatNode('Expression') as ExpressionNode;
+      expressions.push(exp);
     }
 
     this.eatToken('}');
 
     return {
-      type: 'ExpressionBlock',
+      type: 'Block',
       expressions,
     };
   }
 
-  private Condition() {
+  private Condition(): ConditionNode {
     const token = this.eatToken('Condition');
 
     return {
@@ -74,7 +186,7 @@ export class Parser {
     };
   }
   
-  private Expression() {
+  private Expression(): ExpressionNode {
     switch (this.lookAhead!.type) {
       case 'Identifier':
         return this.MethodCall();
@@ -89,7 +201,7 @@ export class Parser {
     }
   }
 
-  private Identifier() {
+  private Identifier(): IdentifierNode {
     const token = this.eatToken('Identifier');
 
     return {
@@ -98,7 +210,7 @@ export class Parser {
     };
   }
 
-  private Instruction() {
+  private Instruction(): InstructionNode {
     const token = this.eatToken('InstructionIdentifier');
 
     this.eatToken('(');
@@ -106,45 +218,47 @@ export class Parser {
     this.eatToken(';');
 
     return {
-      type: 'Instruction',
-      name: token.value,
+      type: 'Expression',
+      name: 'Instruction',
+      instruction: token.value,
     }
   }
 
-  private Iterate() {
+  private Iterate(): IterateNode {
     this.eatToken('Iterate');
     this.eatToken('(');
 
-    const value = this.NumberExpression();
-
+    const argument = this.eatNode('NumberExpression') as NumberExpressionNode;
+    
     this.eatToken(')');
 
-    const body = this.lookAhead!.value === '{'
-      ? this.Block()
-      : this.Expression();
+    const body: BlockNode | ExpressionNode = this.lookAhead!.value === '{'
+      ? this.eatNode('Block') as BlockNode
+      : this.eatNode('Expression') as ExpressionNode;
 
     return {
-      type: 'Iterate',
-      argument: value,
+      type: 'Expression',
+      name: 'Iterate',
+      argument,
       body,
     };
   }
 
-  private Method() {
+  private Method(): MethodNode {
     this.eatToken('MethodType');
 
     const token = this.eatToken('Identifier');
 
     this.eatToken('(');
 
-    let param = null;
+    let param: IdentifierNode | null = null;
     if (this.lookAhead!.type !== ')') {
-      param = this.Identifier();
+      param = this.eatNode('Identifier') as IdentifierNode;
     }
 
     this.eatToken(')');
 
-    const body = this.Block();
+    const body = this.eatNode('Block') as BlockNode;
 
     return {
       type: 'Method',
@@ -154,26 +268,27 @@ export class Parser {
     };
   }
 
-  private MethodCall() {
+  private MethodCall(): MethodCallNode {
     const token = this.eatToken('Identifier');
 
     this.eatToken('(');
 
-    const argument = this.lookAhead!.type !== ')' 
-      ? this.NumberExpression()
+    const argument: NumberExpressionNode | null = this.lookAhead!.type !== ')' 
+      ? this.eatNode('NumberExpression') as NumberExpressionNode
       : null;
 
     this.eatToken(')');
     this.eatToken(';');
 
     return {
-      type: 'MethodCall',
+      type: 'Expression',
+      name: 'MethodCall',
       method: token.value,
       argument,
     };    
   }
 
-  private Number() {
+  private Number(): NumberNode {
     const token = this.eatToken('Number');
 
     return {
@@ -182,60 +297,76 @@ export class Parser {
     }
   }
 
-  private NumberExpression(): any {
+  private NumberExpression(): NumberExpressionNode {
+    let value: IdentifierNode | NumberNode | NumberOperationNode;
+
     switch (this.lookAhead!.type) {
-      case 'Identifier':
-        return this.Identifier();
-      case 'Number':
-        return this.Number();
-      case 'NumberOperator':
-        return this.NumberOperation();
+      case 'Identifier': {
+        value = this.eatNode('Identifier') as IdentifierNode;
+        break;
+      }
+      case 'Number': {
+        value = this.eatNode('Number') as NumberNode;
+        break;
+      }
+      case 'NumberOperator': {
+        value = this.eatNode('NumberOperation') as NumberOperationNode;
+        break;
+      }
       default:
         throw new SyntaxError(`Literal: Unexpected literal production`);
     }
+
+    return {
+      type: 'NumberExpression',
+      value,
+    };
   }
 
-  private NumberOperation() {
+  private NumberOperation(): NumberOperationNode {
     const token = this.eatToken('NumberOperator');
 
     this.eatToken('(');
 
-    const argument = this.NumberExpression();
+    const argument = this.eatNode('NumberExpression') as NumberExpressionNode;
 
     this.eatToken(')');
 
     return {
-      type: 'NumberExpression',
-      operation: token.value,
+      type: 'NumberOperation',
+      operator: token.value as NumberOperatorType,
       argument,
     };
   }
 
-  private Return() {
+  private Return(): ReturnNode {
     this.eatToken('Return');
 
-    let value = null;
+    let value: NumberExpressionNode | null = null;
     if (this.lookAhead!.type !== ';') {
-      value = this.NumberExpression();
+      value = this.eatNode('NumberExpression') as NumberExpressionNode;
     }      
 
     this.eatToken(';');
 
     return {
-      type: 'Return',
+      type: 'Expression',
+      name: 'Return',
       value,
     };
   }
 
   private While() {
     this.eatToken('While');
+
+    // TODO: Add condition and body
   }
 
-  private Zero() {
+  private Zero(): ZeroNode {
     this.eatToken('Zero');
     this.eatToken('(');
 
-    const argument = this.NumberExpression();
+    const argument = this.eatNode('NumberExpression') as NumberExpressionNode;
 
     this.eatToken(')');
 

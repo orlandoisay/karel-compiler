@@ -12,6 +12,8 @@ export type TokenType =
   '{' | '}' | '(' | ')' | ';' |
   'WhiteSpace';
 
+export type NumberOperatorType = 'pred' | 'succ';
+
 export interface TokenSpecEntry {
   type: TokenType,
   rule: RegExp,
