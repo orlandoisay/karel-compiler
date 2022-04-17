@@ -17,6 +17,7 @@ type NodeType =
   'Empty' |
   'Expression' |
   'Identifier' |
+  'If' |
   'Instruction' |
   'Iterate' |
   'Method' |
@@ -60,18 +61,30 @@ interface ConditionNode {
   value: string,
 }
 
-interface ExpressionNode {
-  type: 'Expression',
-  name: string,
+interface ElseNode {
+  type: 'Else',
+  body: BlockNode | ExpressionNode,
 }
 
 interface EmptyNode extends ExpressionNode {
   name: 'Empty',
 }
 
+interface ExpressionNode {
+  type: 'Expression',
+  name: string,
+}
+
 interface IdentifierNode {
   type: 'Identifier',
   value: string,
+}
+
+interface IfNode extends ExpressionNode {
+  name: 'If',
+  condition: BooleanExpressionNode,
+  ifBody: BlockNode | ExpressionNode,
+  elseBody: BlockNode | ExpressionNode | null,
 }
 
 interface InstructionNode extends ExpressionNode {
@@ -136,11 +149,10 @@ interface ZeroNode {
   argument: NumberExpressionNode,
 }
 
-
-
 const ExpressionStartingTokens: TokenType[] = [
   ';',
   'Identifier',
+  'If',
   'InstructionIdentifier',
   'Iterate',
   'Return',
@@ -202,6 +214,8 @@ export class Parser {
         return this.Expression();
       case 'Identifier':
         return this.Identifier();
+      case 'If':
+        return this.If();
       case 'Instruction':
         return this.Instruction();
       case 'Method':
@@ -365,6 +379,8 @@ export class Parser {
         return this.Empty();
       case 'Identifier':
         return this.MethodCall();
+      case 'If':
+        return this.If();
       case 'InstructionIdentifier':
         return this.Instruction();
       case 'Iterate':
@@ -384,6 +400,37 @@ export class Parser {
     return {
       type: 'Identifier',
       value: token.value,
+    };
+  }
+
+  private If(): IfNode {
+    this.eatToken('If');
+    this.eatToken('(');
+
+    const condition = this.eatNode('BooleanExpression') as BooleanExpressionNode;
+
+    this.eatToken(')');
+
+    const ifBody: BlockNode | ExpressionNode = this.getLookAheadType() === '{'
+      ? this.eatNode('Block') as BlockNode
+      : this.eatNode('Expression') as ExpressionNode;
+
+    let elseBody: BlockNode | ExpressionNode | null = null;
+    
+    if (this.getLookAheadType() === 'Else') {
+      this.eatToken('Else');
+
+      elseBody = this.getLookAheadType() === '{'
+        ? this.eatNode('Block') as BlockNode
+        : this.eatNode('Expression') as ExpressionNode;
+    }
+
+    return {
+      type: 'Expression',
+      name: 'If',
+      condition,
+      ifBody,
+      elseBody,
     };
   }
 

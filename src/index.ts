@@ -31,6 +31,13 @@ const program =
     }
 
     program() {
+      if(anyBeepersInBeeperBag) {
+        move();
+      } else if(!facingWest) {
+        turnright();
+      } else 
+        pickbeeper();
+
       turnoff();
     }
   } 

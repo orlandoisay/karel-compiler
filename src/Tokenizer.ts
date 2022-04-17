@@ -1,9 +1,11 @@
 export type TokenType = 
   'Class' |
   'Condition' |
-  'Iterate' |
+  'Else' |
   'Identifier' |
+  'If' |
   'InstructionIdentifier' |
+  'Iterate' |
   'MethodType' |
   'Number' |
   'NumberOperator' |
@@ -63,6 +65,12 @@ const SpecReservedKeywords: TokenSpecEntry[] = [
   { type: 'Condition', rule: /^notFacingSouth$/ },
   { type: 'Condition', rule: /^notFacingEast$/ },
   { type: 'Condition', rule: /^notFacingWest$/ },
+
+  // Else
+  { type: 'Else', rule: /^else$/ },
+
+  // If
+  { type: 'If', rule: /^if$/ },
 
   // Instruction
   { type: 'InstructionIdentifier', rule: /^move$/ },

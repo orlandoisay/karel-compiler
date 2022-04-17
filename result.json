@@ -240,6 +240,82 @@
     "expressions": [
       {
         "type": "Expression",
+        "name": "If",
+        "condition": {
+          "type": "BooleanExpression",
+          "terms": [
+            {
+              "type": "BooleanAndExpression",
+              "terms": [
+                {
+                  "type": "BooleanTerm",
+                  "negated": false,
+                  "value": {
+                    "type": "BooleanUnit",
+                    "value": {
+                      "type": "Condition",
+                      "value": "anyBeepersInBeeperBag"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "ifBody": {
+          "type": "Block",
+          "expressions": [
+            {
+              "type": "Expression",
+              "name": "Instruction",
+              "instruction": "move"
+            }
+          ]
+        },
+        "elseBody": {
+          "type": "Expression",
+          "name": "If",
+          "condition": {
+            "type": "BooleanExpression",
+            "terms": [
+              {
+                "type": "BooleanAndExpression",
+                "terms": [
+                  {
+                    "type": "BooleanTerm",
+                    "negated": true,
+                    "value": {
+                      "type": "BooleanUnit",
+                      "value": {
+                        "type": "Condition",
+                        "value": "facingWest"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "ifBody": {
+            "type": "Block",
+            "expressions": [
+              {
+                "type": "Expression",
+                "name": "MethodCall",
+                "method": "turnright",
+                "argument": null
+              }
+            ]
+          },
+          "elseBody": {
+            "type": "Expression",
+            "name": "Instruction",
+            "instruction": "pickbeeper"
+          }
+        }
+      },
+      {
+        "type": "Expression",
         "name": "Instruction",
         "instruction": "turnoff"
       }
