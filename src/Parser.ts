@@ -216,9 +216,17 @@ export class Parser {
   }
 
   private Program() {
+    this.eatToken('Class');
+    this.eatToken('Program');
+    this.eatToken('{');
+
+    const body = this.eatNode('Method');
+
+    this.eatToken('}');
+
     return {
       type: 'Program',
-      body: this.eatNode('Method'),
+      body,
     };
   }
 

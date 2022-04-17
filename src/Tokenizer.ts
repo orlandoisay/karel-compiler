@@ -1,4 +1,5 @@
 export type TokenType = 
+  'Class' |
   'Condition' |
   'Iterate' |
   'Identifier' |
@@ -6,6 +7,7 @@ export type TokenType =
   'MethodType' |
   'Number' |
   'NumberOperator' |
+  'Program' |
   'Return' |
   'While' |
   'Zero' |
@@ -39,6 +41,9 @@ const Spec: TokenSpecEntry[] = [
 ];
 
 const SpecReservedKeywords: TokenSpecEntry[] = [
+  // Class
+  { type: 'Class', rule: /^class$/ },
+
   // Condition
   { type: 'Condition', rule: /^frontIsClear$/ },
   { type: 'Condition', rule: /^frontIsBlocked$/ },
@@ -68,14 +73,17 @@ const SpecReservedKeywords: TokenSpecEntry[] = [
 
   // Iterate
   { type: 'Iterate', rule: /^iterate$/ },
+  
+  // MethodType
+  { type: 'MethodType', rule: /^void$/ },
+  { type: 'MethodType', rule: /^define$/ },
 
   // NumberOperator
   { type: 'NumberOperator', rule: /^pred$/ },
   { type: 'NumberOperator', rule: /^succ$/ },
 
-  // MethodType
-  { type: 'MethodType', rule: /^void$/ },
-  { type: 'MethodType', rule: /^define$/ },
+  // Program
+  { type: 'Program', rule: /^program$/ },
 
   // Return
   { type: 'Return', rule: /^return$/ },

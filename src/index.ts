@@ -3,21 +3,23 @@ const { Parser } = require('./Parser');
 
 const program = 
 `
-  define atsa() {
-    some(pred(pred(5))); 
-    moveAllBeeper();
-    turnleft();
-    return;
-    return sdf; 
-    iterate(20) { turnleft(); } 
+  class program {
+    define atsa() {
+      some(pred(pred(5))); 
+      moveAllBeeper();
+      turnleft();
+      return;
+      return sdf; 
+      iterate(20) { turnleft(); } 
 
-    while(frontIsClear && !leftIsClear || iszero(n)) { 
-      move(); ; 
+      while(frontIsClear && !leftIsClear || iszero(n)) { 
+        move(); ; 
+      }
+
+      ;
+      ;
     }
-
-    ;
-    ;
-  }
+  } 
 `;
 // const program = ' {     }  ';
 
