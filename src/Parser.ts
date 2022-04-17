@@ -226,7 +226,12 @@ export class Parser {
     this.eatToken('Program');
     this.eatToken('{');
 
-    const methods = [this.eatNode('Method') as MethodNode];
+    const methods: MethodNode[] = [];
+
+    while (this.getLookAheadType() !== 'Program') {
+      const method = this.eatNode('Method') as MethodNode;
+      methods.push(method);
+    }
 
     this.eatToken('Program');
     this.eatToken('(');

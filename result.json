@@ -5,6 +5,72 @@
       "type": "Method",
       "name": {
         "type": "Identifier",
+        "value": "moveN"
+      },
+      "param": {
+        "type": "Identifier",
+        "value": "n"
+      },
+      "body": {
+        "type": "Block",
+        "expressions": [
+          {
+            "type": "Expression",
+            "name": "Iterate",
+            "argument": {
+              "type": "NumberExpression",
+              "value": {
+                "type": "Identifier",
+                "value": "n"
+              }
+            },
+            "body": {
+              "type": "Expression",
+              "name": "Instruction",
+              "instruction": "move"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Method",
+      "name": {
+        "type": "Identifier",
+        "value": "turnright"
+      },
+      "param": null,
+      "body": {
+        "type": "Block",
+        "expressions": [
+          {
+            "type": "Expression",
+            "name": "Iterate",
+            "argument": {
+              "type": "NumberExpression",
+              "value": {
+                "type": "Number",
+                "value": 3
+              }
+            },
+            "body": {
+              "type": "Block",
+              "expressions": [
+                {
+                  "type": "Expression",
+                  "name": "Instruction",
+                  "instruction": "turnleft"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "Method",
+      "name": {
+        "type": "Identifier",
         "value": "atsa"
       },
       "param": null,

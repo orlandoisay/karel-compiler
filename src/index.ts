@@ -4,6 +4,16 @@ const { Parser } = require('./Parser');
 const program = 
 `
   class program {
+    define moveN(n) {
+      iterate(n) move();
+    }
+
+    define turnright() {
+      iterate(3) {
+        turnleft();
+      }
+    }
+
     define atsa() {
       some(pred(pred(5))); 
       moveAllBeeper();
