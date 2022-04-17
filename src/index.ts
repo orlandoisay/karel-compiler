@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Parser } = require('./Parser');
+const { ProgramParser } = require('./Parser');
 
 const program = 
 `
@@ -43,7 +43,7 @@ const program =
   } 
 `;
 
-const parser = new Parser();
+const parser = new ProgramParser();
 const result = parser.parse(program);
 
 const formattedResult = JSON.stringify(result, null, 2);

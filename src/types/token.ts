@@ -22,3 +22,10 @@ export interface TokenSpecEntry {
   type: TokenType,
   rule: RegExp,
 }
+
+export interface Token {
+  type: TokenType,
+  value: string,
+  start: number,
+  end: number,
+}

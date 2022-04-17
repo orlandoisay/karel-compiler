@@ -1,4 +1,4 @@
-import { NumberOperatorType } from "./tokens";
+import { NumberOperatorType } from "./token";
 
 export type NodeType = 
   'Block' |

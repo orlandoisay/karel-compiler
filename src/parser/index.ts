@@ -1,9 +1,6 @@
-import { BlockNode, BooleanAndExpressionNode, BooleanExpressionNode, BooleanTermNode, BooleanUnitNode, ConditionNode, EmptyNode, ExpressionNode, IdentifierNode, IfNode, InstructionNode, IterateNode, MethodCallNode, MethodNode, NodeType, NumberExpressionNode, NumberNode, NumberOperationNode, NumberOperatorType, ProgramNode, ReturnNode, TokenType, WhileNode, ZeroNode } from "../types";
-import { 
-  Token,
-  Tokenizer,
-} from "../tokenizer";
-import { ParserHelper, ReturnParserHelper } from "./return";
+import { BlockNode, BooleanAndExpressionNode, BooleanExpressionNode, BooleanTermNode, BooleanUnitNode, ConditionNode, EmptyNode, ExpressionNode, IdentifierNode, IfNode, InstructionNode, IterateNode, MethodCallNode, MethodNode, NodeType, NumberExpressionNode, NumberNode, NumberOperationNode, NumberOperatorType, Parser, ParserHelpers, ProgramNode, ReturnNode, Token, TokenType, WhileNode, ZeroNode } from "../types";
+import { Tokenizer } from "../tokenizer";
+import { ReturnParser } from "./return";
 
 const ExpressionStartingTokens: TokenType[] = [
   ';',
@@ -15,23 +12,23 @@ const ExpressionStartingTokens: TokenType[] = [
   'While',
 ];
 
-export class Parser {
+export class ProgramParser {
   tokenizer: Tokenizer;
   lookAhead: Token | null;  
-  helpers: { [Type in ('Return')]: ParserHelper };
+  helpers: { [Type in ('Return')]: Parser };
 
   constructor() {
     this.tokenizer = new Tokenizer();
     this.lookAhead = null;
 
-    const parseFns = {
+    const parserHelpers: ParserHelpers = {
       getLookAheadType: this.getLookAheadType.bind(this),
       eatNode: this.eatNode.bind(this),
       eatToken: this.eatToken.bind(this),
     }
 
     this.helpers = {
-      'Return': new ReturnParserHelper(parseFns),
+      'Return': new ReturnParser(parserHelpers),
     };
   }
 

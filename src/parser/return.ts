@@ -1,32 +1,22 @@
-import { Token } from "../tokenizer";
-import { ASTNode, NodeType, NumberExpressionNode, ReturnNode, TokenType } from "../types";
+import { NumberExpressionNode, ReturnNode } from "../types";
+import { Parser, ParserHelpers } from "../types/parser";
 
-interface Parser {
-  getLookAheadType: () => TokenType,
-  eatToken: (type: TokenType) => Token,
-  eatNode: (type: NodeType) => any,
-}
+export class ReturnParser implements Parser {
+  helpers: ParserHelpers;
 
-export interface ParserHelper {
-  parse: () => ASTNode,
-}
-
-export class ReturnParserHelper implements ParserHelper {
-  parser: Parser;
-
-  constructor(parser: Parser) {
-    this.parser = parser;
+  constructor(helpers: ParserHelpers) {
+    this.helpers = helpers;
   }
   
   public parse(): ReturnNode {
-    this.parser.eatToken('Return');
+    this.helpers.eatToken('Return');
 
     let value: NumberExpressionNode | null = null;
-    if (this.parser.getLookAheadType() !== ';') {
-      value = this.parser.eatNode('NumberExpression') as NumberExpressionNode;
+    if (this.helpers.getLookAheadType() !== ';') {
+      value = this.helpers.eatNode('NumberExpression') as NumberExpressionNode;
     }      
 
-    this.parser.eatToken(';');
+    this.helpers.eatToken(';');
 
     return {
       type: 'Expression',

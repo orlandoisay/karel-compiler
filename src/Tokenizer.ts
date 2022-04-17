@@ -1,5 +1,4 @@
-import { TokenSpecEntry, TokenType } from "./types";
-
+import { Token, TokenSpecEntry, TokenType } from "./types";
 
 const Spec: TokenSpecEntry[] = [
   { type: 'Number', rule: /^\d+/ },
@@ -80,13 +79,6 @@ const SpecReservedKeywords: TokenSpecEntry[] = [
   // Zero
   { type: 'Zero', rule: /^iszero$/ }
 ];
-
-export interface Token {
-  type: TokenType,
-  value: string,
-  start: number,
-  end: number,
-}
 
 export class Tokenizer {
   cursor: number = 0;
