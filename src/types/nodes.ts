@@ -26,38 +26,38 @@ export interface ASTNode {
   type: string,
 }
 
-export interface BlockNode {
+export interface BlockNode extends ASTNode {
   type: 'Block',
   expressions: any[],
 }
 
-export interface BooleanExpressionNode {
+export interface BooleanExpressionNode extends ASTNode {
   type: 'BooleanExpression',
   terms: BooleanAndExpressionNode[],
 }
 
-export interface BooleanAndExpressionNode { 
+export interface BooleanAndExpressionNode extends ASTNode { 
   type: 'BooleanAndExpression',
   terms: BooleanTermNode[],
 }
 
-export interface BooleanTermNode {
+export interface BooleanTermNode extends ASTNode {
   type: 'BooleanTerm',
   negated: boolean,
   value: BooleanUnitNode,
 }
 
-export interface BooleanUnitNode {
+export interface BooleanUnitNode extends ASTNode {
   type: 'BooleanUnit',
   value: ZeroNode | ConditionNode | BooleanExpressionNode,
 }
 
-export interface ConditionNode {
+export interface ConditionNode extends ASTNode {
   type: 'Condition',
   value: string,
 }
 
-export interface ElseNode {
+export interface ElseNode extends ASTNode {
   type: 'Else',
   body: BlockNode | ExpressionNode,
 }
@@ -71,7 +71,7 @@ export interface ExpressionNode extends ASTNode {
   name: string,
 }
 
-export interface IdentifierNode {
+export interface IdentifierNode extends ASTNode {
   type: 'Identifier',
   value: string,
 }
@@ -94,7 +94,7 @@ export interface IterateNode extends ExpressionNode {
   body: BlockNode | ExpressionNode,
 }
 
-export interface MethodNode {
+export interface MethodNode extends ASTNode {
   type: 'Method',
   name: IdentifierNode,
   param: IdentifierNode | null,
@@ -107,23 +107,23 @@ export interface MethodCallNode extends ExpressionNode {
   argument: NumberExpressionNode | null,
 }
 
-export interface NumberNode {
+export interface NumberNode extends ASTNode {
   type: 'Number',
   value: number,
 }
 
-export interface NumberExpressionNode { 
+export interface NumberExpressionNode extends ASTNode { 
   type: 'NumberExpression',
   value: IdentifierNode | NumberNode | NumberOperationNode,
 }
 
-export interface NumberOperationNode {
+export interface NumberOperationNode extends ASTNode {
   type: 'NumberOperation',
   operator: NumberOperatorType,
   argument: NumberExpressionNode,
 }
 
-export interface ProgramNode {
+export interface ProgramNode extends ASTNode {
   type: 'Program',
   methods: MethodNode[],
   program: BlockNode,
@@ -140,7 +140,7 @@ export interface WhileNode extends ExpressionNode {
   body: BlockNode | ExpressionNode,
 }
 
-export interface ZeroNode {
+export interface ZeroNode extends ASTNode {
   type: 'Zero',
   argument: NumberExpressionNode,
 }
