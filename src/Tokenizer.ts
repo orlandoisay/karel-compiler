@@ -1,27 +1,5 @@
-export type TokenType = 
-  'Class' |
-  'Condition' |
-  'Else' |
-  'Identifier' |
-  'If' |
-  'InstructionIdentifier' |
-  'Iterate' |
-  'MethodType' |
-  'Number' |
-  'NumberOperator' |
-  'Program' |
-  'Return' |
-  'While' |
-  'Zero' |
-  '!' | '||' | '&&' | '{' | '}' | '(' | ')' | ';' |
-  'WhiteSpace';
+import { TokenSpecEntry, TokenType } from "./types";
 
-export type NumberOperatorType = 'pred' | 'succ';
-
-export interface TokenSpecEntry {
-  type: TokenType,
-  rule: RegExp,
-}
 
 const Spec: TokenSpecEntry[] = [
   { type: 'Number', rule: /^\d+/ },

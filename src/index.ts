@@ -42,13 +42,12 @@ const program =
     }
   } 
 `;
-// const program = ' {     }  ';
 
 const parser = new Parser();
 const result = parser.parse(program);
 
 const formattedResult = JSON.stringify(result, null, 2);
 
-fs.writeFile('result.json', formattedResult, (err: any) => console.log(err));
+fs.writeFile('result.json', formattedResult, (err: any) => ({}));
 
 console.log(formattedResult);
