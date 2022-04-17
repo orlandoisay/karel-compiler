@@ -1,8 +1,8 @@
-import { BlockNode, BooleanAndExpressionNode, BooleanExpressionNode, BooleanTermNode, BooleanUnitNode, ConditionNode, EmptyNode, ExpressionNode, IdentifierNode, IfNode, InstructionNode, IterateNode, MethodCallNode, MethodNode, NodeType, NumberExpressionNode, NumberNode, NumberOperationNode, NumberOperatorType, ProgramNode, ReturnNode, TokenType, WhileNode, ZeroNode } from "./types";
+import { BlockNode, BooleanAndExpressionNode, BooleanExpressionNode, BooleanTermNode, BooleanUnitNode, ConditionNode, EmptyNode, ExpressionNode, IdentifierNode, IfNode, InstructionNode, IterateNode, MethodCallNode, MethodNode, NodeType, NumberExpressionNode, NumberNode, NumberOperationNode, NumberOperatorType, ProgramNode, ReturnNode, TokenType, WhileNode, ZeroNode } from "../types";
 import { 
   Token,
   Tokenizer,
-} from "./tokenizer";
+} from "../tokenizer";
 
 const ExpressionStartingTokens: TokenType[] = [
   ';',
