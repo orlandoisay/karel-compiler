@@ -1,170 +1,182 @@
 {
   "type": "Program",
-  "body": {
-    "type": "Method",
-    "name": {
-      "type": "Identifier",
-      "value": "atsa"
-    },
-    "param": null,
-    "body": {
-      "type": "Block",
-      "expressions": [
-        {
-          "type": "Expression",
-          "name": "MethodCall",
-          "method": "some",
-          "argument": {
-            "type": "NumberExpression",
-            "value": {
-              "type": "NumberOperation",
-              "operator": "pred",
-              "argument": {
-                "type": "NumberExpression",
-                "value": {
-                  "type": "NumberOperation",
-                  "operator": "pred",
-                  "argument": {
-                    "type": "NumberExpression",
-                    "value": {
-                      "type": "Number",
-                      "value": 5
+  "methods": [
+    {
+      "type": "Method",
+      "name": {
+        "type": "Identifier",
+        "value": "atsa"
+      },
+      "param": null,
+      "body": {
+        "type": "Block",
+        "expressions": [
+          {
+            "type": "Expression",
+            "name": "MethodCall",
+            "method": "some",
+            "argument": {
+              "type": "NumberExpression",
+              "value": {
+                "type": "NumberOperation",
+                "operator": "pred",
+                "argument": {
+                  "type": "NumberExpression",
+                  "value": {
+                    "type": "NumberOperation",
+                    "operator": "pred",
+                    "argument": {
+                      "type": "NumberExpression",
+                      "value": {
+                        "type": "Number",
+                        "value": 5
+                      }
                     }
                   }
                 }
               }
             }
-          }
-        },
-        {
-          "type": "Expression",
-          "name": "MethodCall",
-          "method": "moveAllBeeper",
-          "argument": null
-        },
-        {
-          "type": "Expression",
-          "name": "Instruction",
-          "instruction": "turnleft"
-        },
-        {
-          "type": "Expression",
-          "name": "Return",
-          "value": null
-        },
-        {
-          "type": "Expression",
-          "name": "Return",
-          "value": {
-            "type": "NumberExpression",
+          },
+          {
+            "type": "Expression",
+            "name": "MethodCall",
+            "method": "moveAllBeeper",
+            "argument": null
+          },
+          {
+            "type": "Expression",
+            "name": "Instruction",
+            "instruction": "turnleft"
+          },
+          {
+            "type": "Expression",
+            "name": "Return",
+            "value": null
+          },
+          {
+            "type": "Expression",
+            "name": "Return",
             "value": {
-              "type": "Identifier",
-              "value": "sdf"
-            }
-          }
-        },
-        {
-          "type": "Expression",
-          "name": "Iterate",
-          "argument": {
-            "type": "NumberExpression",
-            "value": {
-              "type": "Number",
-              "value": 20
+              "type": "NumberExpression",
+              "value": {
+                "type": "Identifier",
+                "value": "sdf"
+              }
             }
           },
-          "body": {
-            "type": "Block",
-            "expressions": [
-              {
-                "type": "Expression",
-                "name": "Instruction",
-                "instruction": "turnleft"
+          {
+            "type": "Expression",
+            "name": "Iterate",
+            "argument": {
+              "type": "NumberExpression",
+              "value": {
+                "type": "Number",
+                "value": 20
               }
-            ]
-          }
-        },
-        {
-          "type": "Expression",
-          "name": "While",
-          "condition": {
-            "type": "BooleanExpression",
-            "terms": [
-              {
-                "type": "BooleanAndExpression",
-                "terms": [
-                  {
-                    "type": "BooleanTerm",
-                    "negated": false,
-                    "value": {
-                      "type": "BooleanUnit",
+            },
+            "body": {
+              "type": "Block",
+              "expressions": [
+                {
+                  "type": "Expression",
+                  "name": "Instruction",
+                  "instruction": "turnleft"
+                }
+              ]
+            }
+          },
+          {
+            "type": "Expression",
+            "name": "While",
+            "condition": {
+              "type": "BooleanExpression",
+              "terms": [
+                {
+                  "type": "BooleanAndExpression",
+                  "terms": [
+                    {
+                      "type": "BooleanTerm",
+                      "negated": false,
                       "value": {
-                        "type": "Condition",
-                        "value": "frontIsClear"
+                        "type": "BooleanUnit",
+                        "value": {
+                          "type": "Condition",
+                          "value": "frontIsClear"
+                        }
+                      }
+                    },
+                    {
+                      "type": "BooleanTerm",
+                      "negated": true,
+                      "value": {
+                        "type": "BooleanUnit",
+                        "value": {
+                          "type": "Condition",
+                          "value": "leftIsClear"
+                        }
                       }
                     }
-                  },
-                  {
-                    "type": "BooleanTerm",
-                    "negated": true,
-                    "value": {
-                      "type": "BooleanUnit",
+                  ]
+                },
+                {
+                  "type": "BooleanAndExpression",
+                  "terms": [
+                    {
+                      "type": "BooleanTerm",
+                      "negated": false,
                       "value": {
-                        "type": "Condition",
-                        "value": "leftIsClear"
-                      }
-                    }
-                  }
-                ]
-              },
-              {
-                "type": "BooleanAndExpression",
-                "terms": [
-                  {
-                    "type": "BooleanTerm",
-                    "negated": false,
-                    "value": {
-                      "type": "BooleanUnit",
-                      "value": {
-                        "type": "Zero",
-                        "argument": {
-                          "type": "NumberExpression",
-                          "value": {
-                            "type": "Identifier",
-                            "value": "n"
+                        "type": "BooleanUnit",
+                        "value": {
+                          "type": "Zero",
+                          "argument": {
+                            "type": "NumberExpression",
+                            "value": {
+                              "type": "Identifier",
+                              "value": "n"
+                            }
                           }
                         }
                       }
                     }
-                  }
-                ]
-              }
-            ]
+                  ]
+                }
+              ]
+            },
+            "body": {
+              "type": "Block",
+              "expressions": [
+                {
+                  "type": "Expression",
+                  "name": "Instruction",
+                  "instruction": "move"
+                },
+                {
+                  "type": "Expression",
+                  "name": "Empty"
+                }
+              ]
+            }
           },
-          "body": {
-            "type": "Block",
-            "expressions": [
-              {
-                "type": "Expression",
-                "name": "Instruction",
-                "instruction": "move"
-              },
-              {
-                "type": "Expression",
-                "name": "Empty"
-              }
-            ]
+          {
+            "type": "Expression",
+            "name": "Empty"
+          },
+          {
+            "type": "Expression",
+            "name": "Empty"
           }
-        },
-        {
-          "type": "Expression",
-          "name": "Empty"
-        },
-        {
-          "type": "Expression",
-          "name": "Empty"
-        }
-      ]
+        ]
+      }
     }
+  ],
+  "program": {
+    "type": "Block",
+    "expressions": [
+      {
+        "type": "Expression",
+        "name": "Instruction",
+        "instruction": "turnoff"
+      }
+    ]
   }
 }

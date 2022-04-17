@@ -114,6 +114,12 @@ interface NumberOperationNode {
   argument: NumberExpressionNode,
 }
 
+interface ProgramNode {
+  type: 'Program',
+  methods: MethodNode[],
+  program: BlockNode,
+}
+
 interface ReturnNode extends ExpressionNode {
   name: 'Return',
   value: NumberExpressionNode | null,
@@ -215,18 +221,25 @@ export class Parser {
     }
   }
 
-  private Program() {
+  private Program(): ProgramNode {
     this.eatToken('Class');
     this.eatToken('Program');
     this.eatToken('{');
 
-    const body = this.eatNode('Method');
+    const methods = [this.eatNode('Method') as MethodNode];
+
+    this.eatToken('Program');
+    this.eatToken('(');
+    this.eatToken(')');
+
+    const program = this.eatNode('Block') as BlockNode;
 
     this.eatToken('}');
 
     return {
       type: 'Program',
-      body,
+      methods,
+      program,
     };
   }
 

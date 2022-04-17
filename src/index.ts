@@ -19,6 +19,10 @@ const program =
       ;
       ;
     }
+
+    program() {
+      turnoff();
+    }
   } 
 `;
 // const program = ' {     }  ';
