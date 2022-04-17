@@ -52,7 +52,7 @@ interface BooleanTermNode {
 
 interface BooleanUnitNode {
   type: 'BooleanUnit',
-  value: ZeroNode | ConditionNode,
+  value: ZeroNode | ConditionNode | BooleanExpressionNode,
 }
 
 interface ConditionNode {
@@ -288,7 +288,7 @@ export class Parser {
   }
 
   private BooleanUnit(): BooleanUnitNode {
-    let value: ZeroNode | ConditionNode;
+    let value: ZeroNode | ConditionNode | BooleanExpressionNode;
 
     switch (this.getLookAheadType()) {
       case 'Zero': {
@@ -299,10 +299,11 @@ export class Parser {
         value = this.eatNode('Condition') as ConditionNode;
         break;
       }
-      // case '(': {
-      //   this.eatToken('(');
-      //   this.eatToken(')');
-      // }
+      case '(': {
+        this.eatToken('(');
+        value = this.eatNode('BooleanExpression') as BooleanExpressionNode;
+        this.eatToken(')');
+      }
       default: {
         throw SyntaxError(`Unexpected token`);
       }

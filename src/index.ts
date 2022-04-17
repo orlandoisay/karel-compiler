@@ -11,7 +11,9 @@ const program =
     return sdf; 
     iterate(20) { turnleft(); } 
 
-    while(frontIsClear) { move(); ; }
+    while(frontIsClear && !leftIsClear || iszero(n)) { 
+      move(); ; 
+    }
 
     ;
     ;

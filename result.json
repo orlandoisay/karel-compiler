@@ -103,6 +103,39 @@
                         "value": "frontIsClear"
                       }
                     }
+                  },
+                  {
+                    "type": "BooleanTerm",
+                    "negated": true,
+                    "value": {
+                      "type": "BooleanUnit",
+                      "value": {
+                        "type": "Condition",
+                        "value": "leftIsClear"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "BooleanAndExpression",
+                "terms": [
+                  {
+                    "type": "BooleanTerm",
+                    "negated": false,
+                    "value": {
+                      "type": "BooleanUnit",
+                      "value": {
+                        "type": "Zero",
+                        "argument": {
+                          "type": "NumberExpression",
+                          "value": {
+                            "type": "Identifier",
+                            "value": "n"
+                          }
+                        }
+                      }
+                    }
                   }
                 ]
               }
