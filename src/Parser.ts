@@ -9,6 +9,10 @@ import {
 
 type NodeType = 
   'Block' |
+  'BooleanAndExpression' |
+  'BooleanExpression' |
+  'BooleanTerm' |
+  'BooleanUnit' |
   'Condition' |
   'Expression' |
   'Identifier' |
@@ -20,12 +24,34 @@ type NodeType =
   'NumberExpression' |
   'NumberOperation' |
   'Return' |
+  'While' |
   'Zero';
 
 
 interface BlockNode {
   type: 'Block',
   expressions: any[],
+}
+
+interface BooleanExpressionNode {
+  type: 'BooleanExpression',
+  terms: BooleanAndExpressionNode[],
+}
+
+interface BooleanAndExpressionNode { 
+  type: 'BooleanAndExpression',
+  terms: BooleanTermNode[],
+}
+
+interface BooleanTermNode {
+  type: 'BooleanTerm',
+  negated: boolean,
+  value: BooleanUnitNode,
+}
+
+interface BooleanUnitNode {
+  type: 'BooleanUnit',
+  value: ZeroNode | ConditionNode,
 }
 
 interface ConditionNode {
@@ -88,6 +114,12 @@ interface ReturnNode extends ExpressionNode {
   value: NumberExpressionNode | null,
 }
 
+interface WhileNode extends ExpressionNode {
+  name: 'While',
+  condition: BooleanExpressionNode,
+  body: BlockNode | ExpressionNode,
+}
+
 interface ZeroNode {
   type: 'Zero',
   argument: NumberExpressionNode,
@@ -100,6 +132,7 @@ const ExpressionStartingTokens: TokenType[] = [
   'InstructionIdentifier',
   'Iterate',
   'Return',
+  'While',
 ];
 
 export class Parser {
@@ -143,6 +176,16 @@ export class Parser {
     switch (nodeType) {
       case 'Block':
         return this.Block();
+      case 'BooleanAndExpression':
+        return this.BooleanAndExpression();
+      case 'BooleanExpression':
+        return this.BooleanExpression();
+      case 'BooleanTerm':
+        return this.BooleanTerm();
+      case 'BooleanUnit':
+        return this.BooleanUnit();
+      case 'Condition':
+        return this.Condition();
       case 'Expression':
         return this.Expression();
       case 'Identifier':
@@ -159,6 +202,10 @@ export class Parser {
         return this.NumberExpression();
       case 'NumberOperation':
         return this.NumberOperation();
+      case 'While':
+        return this.While();
+      case 'Zero':
+        return this.Zero();
     }
   }
 
@@ -187,6 +234,80 @@ export class Parser {
     };
   }
 
+  private BooleanAndExpression(): BooleanAndExpressionNode {
+    let terms: BooleanTermNode[] = [this.eatNode('BooleanTerm') as BooleanTermNode];
+
+    while (this.getLookAheadType() === '&&') {
+      this.eatToken('&&');
+      const term = this.eatNode('BooleanTerm') as BooleanTermNode;
+      terms.push(term);
+    }
+
+    return {
+      type: 'BooleanAndExpression',
+      terms,
+    };
+  }
+
+  private BooleanExpression(): BooleanExpressionNode {
+    let terms: BooleanAndExpressionNode[] = [this.eatNode('BooleanAndExpression') as BooleanAndExpressionNode];
+
+    while (this.getLookAheadType() === '||') {
+      this.eatToken('||');
+      const term = this.eatNode('BooleanAndExpression') as BooleanAndExpressionNode;
+      terms.push(term);
+    }
+
+    return {
+      type: 'BooleanExpression',
+      terms,
+    };
+  }
+
+  private BooleanTerm(): BooleanTermNode {
+    let negated: boolean = false;
+
+    if (this.getLookAheadType() === '!') {
+      this.eatToken('!');
+      negated = true;
+    }
+
+    const value = this.eatNode('BooleanUnit') as BooleanUnitNode;
+
+    return {
+      type: 'BooleanTerm',
+      negated,
+      value,
+    };
+  }
+
+  private BooleanUnit(): BooleanUnitNode {
+    let value: ZeroNode | ConditionNode;
+
+    switch (this.getLookAheadType()) {
+      case 'Zero': {
+        value = this.eatNode('Zero') as ZeroNode;
+        break;
+      }
+      case 'Condition': {
+        value = this.eatNode('Condition') as ConditionNode;
+        break;
+      }
+      // case '(': {
+      //   this.eatToken('(');
+      //   this.eatToken(')');
+      // }
+      default: {
+        throw SyntaxError(`Unexpected token`);
+      }
+    }
+
+    return {
+      type: 'BooleanUnit',
+      value,
+    };
+  }
+
   private Condition(): ConditionNode {
     const token = this.eatToken('Condition');
 
@@ -206,6 +327,8 @@ export class Parser {
         return this.Iterate();
       case 'Return':
         return this.Return();
+      case 'While':
+        return this.While();
       default:
         throw new SyntaxError(`Literal: Unexpected literal production`);
     }
@@ -366,10 +489,24 @@ export class Parser {
     };
   }
 
-  private While() {
+  private While(): WhileNode {
     this.eatToken('While');
+    this.eatToken('(');
 
-    // TODO: Add condition and body
+    const condition = this.eatNode('BooleanExpression') as BooleanExpressionNode;
+
+    this.eatToken(')');
+
+    const body: BlockNode | ExpressionNode = this.getLookAheadType() === '{'
+      ? this.eatNode('Block') as BlockNode
+      : this.eatNode('Expression') as ExpressionNode;
+
+    return {
+      type: 'Expression',
+      name: 'While',
+      condition,
+      body,
+    }
   }
 
   private Zero(): ZeroNode {

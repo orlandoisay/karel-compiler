@@ -1,7 +1,19 @@
 const fs = require('fs');
 const { Parser } = require('./Parser');
 
-const program = 'define atsa() {      some(pred(pred(5)));  moveAllBeeper(); turnleft();  return; return sdf; iterate(20) { turnleft(); } } ';
+const program = 
+`
+  define atsa() {
+    some(pred(pred(5))); 
+    moveAllBeeper();
+    turnleft();
+    return;
+    return sdf; 
+    iterate(20) { turnleft(); } 
+
+    while(frontIsClear) { move(); }
+  }
+`;
 // const program = ' {     }  ';
 
 const parser = new Parser();

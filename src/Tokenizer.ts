@@ -9,7 +9,7 @@ export type TokenType =
   'Return' |
   'While' |
   'Zero' |
-  '{' | '}' | '(' | ')' | ';' |
+  '!' | '||' | '&&' | '{' | '}' | '(' | ')' | ';' |
   'WhiteSpace';
 
 export type NumberOperatorType = 'pred' | 'succ';
@@ -24,6 +24,10 @@ const Spec: TokenSpecEntry[] = [
   { type: 'Identifier', rule: /^[A-Za-z][A-Za-z0-9_]*/ },
 
   // Misc
+  { type: '!', rule: /^!/ },
+  { type: '&&', rule: /^&&/ },
+  { type: '||', rule: /^\|\|/ },
+
   { type: '{', rule: /^\{/ },
   { type: '}', rule: /^\}/ },
   { type: '(', rule: /^\(/ },

@@ -83,6 +83,41 @@
               }
             ]
           }
+        },
+        {
+          "type": "Expression",
+          "name": "While",
+          "condition": {
+            "type": "BooleanExpression",
+            "terms": [
+              {
+                "type": "BooleanAndExpression",
+                "terms": [
+                  {
+                    "type": "BooleanTerm",
+                    "negated": false,
+                    "value": {
+                      "type": "BooleanUnit",
+                      "value": {
+                        "type": "Condition",
+                        "value": "frontIsClear"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "body": {
+            "type": "Block",
+            "expressions": [
+              {
+                "type": "Expression",
+                "name": "Instruction",
+                "instruction": "move"
+              }
+            ]
+          }
         }
       ]
     }
