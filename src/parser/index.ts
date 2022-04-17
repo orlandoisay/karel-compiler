@@ -1,6 +1,7 @@
 import { BlockNode, BooleanAndExpressionNode, BooleanExpressionNode, BooleanTermNode, BooleanUnitNode, ConditionNode, EmptyNode, ExpressionNode, IdentifierNode, IfNode, InstructionNode, IterateNode, MethodCallNode, MethodNode, NodeType, NumberExpressionNode, NumberNode, NumberOperationNode, NumberOperatorType, Parser, ParserHelpers, ProgramNode, ReturnNode, Token, TokenType, WhileNode, ZeroNode } from "../types";
 import { Tokenizer } from "../tokenizer";
 import { ReturnParser } from "./return";
+import { ZeroParser } from "./zero";
 
 const ExpressionStartingTokens: TokenType[] = [
   ';',
@@ -15,7 +16,7 @@ const ExpressionStartingTokens: TokenType[] = [
 export class ProgramParser {
   tokenizer: Tokenizer;
   lookAhead: Token | null;  
-  helpers: { [Type in ('Return')]: Parser };
+  helpers: { [Type in ('Return' | 'Zero')]: Parser };
 
   constructor() {
     this.tokenizer = new Tokenizer();
@@ -29,6 +30,7 @@ export class ProgramParser {
 
     this.helpers = {
       'Return': new ReturnParser(parserHelpers),
+      'Zero': new ZeroParser(parserHelpers),
     };
   }
 
@@ -103,7 +105,8 @@ export class ProgramParser {
       case 'While':
         return this.While();
       case 'Zero':
-        return this.Zero();
+        // return this.Zero();
+        return this.helpers['Zero'].parse();
     }
   }
 
