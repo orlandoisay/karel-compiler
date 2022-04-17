@@ -14,6 +14,7 @@ type NodeType =
   'BooleanTerm' |
   'BooleanUnit' |
   'Condition' |
+  'Empty' |
   'Expression' |
   'Identifier' |
   'Instruction' |
@@ -62,6 +63,10 @@ interface ConditionNode {
 interface ExpressionNode {
   type: 'Expression',
   name: string,
+}
+
+interface EmptyNode extends ExpressionNode {
+  name: 'Empty',
 }
 
 interface IdentifierNode {
@@ -128,6 +133,7 @@ interface ZeroNode {
 
 
 const ExpressionStartingTokens: TokenType[] = [
+  ';',
   'Identifier',
   'InstructionIdentifier',
   'Iterate',
@@ -316,9 +322,20 @@ export class Parser {
       value: token.value,
     };
   }
+
+  private Empty(): EmptyNode {
+    this.eatToken(';');
+
+    return {
+      type: 'Expression',
+      name: 'Empty',
+    };
+  }
   
   private Expression(): ExpressionNode {
     switch (this.getLookAheadType()) {
+      case ';':
+        return this.Empty();
       case 'Identifier':
         return this.MethodCall();
       case 'InstructionIdentifier':

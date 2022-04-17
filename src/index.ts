@@ -11,7 +11,10 @@ const program =
     return sdf; 
     iterate(20) { turnleft(); } 
 
-    while(frontIsClear) { move(); }
+    while(frontIsClear) { move(); ; }
+
+    ;
+    ;
   }
 `;
 // const program = ' {     }  ';
