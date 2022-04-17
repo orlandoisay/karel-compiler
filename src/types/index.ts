@@ -45,6 +45,9 @@ export type NodeType =
   'While' |
   'Zero';
 
+export interface ASTNode {
+  type: string,
+}
 
 export interface BlockNode {
   type: 'Block',
@@ -86,7 +89,7 @@ export interface EmptyNode extends ExpressionNode {
   name: 'Empty',
 }
 
-export interface ExpressionNode {
+export interface ExpressionNode extends ASTNode {
   type: 'Expression',
   name: string,
 }
@@ -163,4 +166,31 @@ export interface WhileNode extends ExpressionNode {
 export interface ZeroNode {
   type: 'Zero',
   argument: NumberExpressionNode,
+}
+
+
+
+type Orientation = 'North' | 'West' | 'South' | 'East';
+
+export interface Position {
+  x: number,
+  y: number,
+}
+
+type Amount = number | 'Infinite';
+
+export interface KarelState {
+  location: Position,
+  orientation: Orientation,
+  beepers: Amount,
+}
+
+interface BeepersHeap {
+  location: Position,
+  amount: Amount,
+}
+
+export interface World {
+  state: KarelState,  
+  heaps: BeepersHeap[],
 }

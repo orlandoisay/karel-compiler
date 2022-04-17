@@ -3,6 +3,7 @@ import {
   Token,
   Tokenizer,
 } from "../tokenizer";
+import { ParserHelper, ReturnParserHelper } from "./return";
 
 const ExpressionStartingTokens: TokenType[] = [
   ';',
@@ -15,8 +16,24 @@ const ExpressionStartingTokens: TokenType[] = [
 ];
 
 export class Parser {
-  tokenizer: Tokenizer = new Tokenizer();
-  lookAhead: Token | null = null;
+  tokenizer: Tokenizer;
+  lookAhead: Token | null;  
+  helpers: { [Type in ('Return')]: ParserHelper };
+
+  constructor() {
+    this.tokenizer = new Tokenizer();
+    this.lookAhead = null;
+
+    const parseFns = {
+      getLookAheadType: this.getLookAheadType.bind(this),
+      eatNode: this.eatNode.bind(this),
+      eatToken: this.eatToken.bind(this),
+    }
+
+    this.helpers = {
+      'Return': new ReturnParserHelper(parseFns),
+    };
+  }
 
   public parse(program: string) {
     this.tokenizer.init(program);
@@ -25,7 +42,7 @@ export class Parser {
     return this.Program();
   }
 
-  private getLookAheadType(): TokenType {
+  public getLookAheadType(): TokenType {
     const token = this.lookAhead;
 
     if (token == null) {
@@ -35,7 +52,7 @@ export class Parser {
     return token.type;
   }
 
-  private eatToken(tokenType: TokenType) {
+  public eatToken(tokenType: TokenType) {
     const token = this.lookAhead;
 
     if (token == null) {
@@ -51,7 +68,7 @@ export class Parser {
     return token;
   }
 
-  private eatNode(nodeType: NodeType) {
+  public eatNode(nodeType: NodeType) {
     switch (nodeType) {
       case 'Block':
         return this.Block();
@@ -83,6 +100,9 @@ export class Parser {
         return this.NumberExpression();
       case 'NumberOperation':
         return this.NumberOperation();
+      case 'Return':
+        // return this.Return();
+        return this.helpers['Return'].parse();
       case 'While':
         return this.While();
       case 'Zero':
@@ -241,7 +261,7 @@ export class Parser {
       case 'Iterate':
         return this.Iterate();
       case 'Return':
-        return this.Return();
+        return this.eatNode('Return') as ReturnNode; //this.Return();
       case 'While':
         return this.While();
       default:
