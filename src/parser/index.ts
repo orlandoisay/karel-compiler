@@ -96,49 +96,6 @@ export class Parser {
   }
 
   public eatNode(nodeType: NodeType) {
-    switch (nodeType) {
-      case 'Block':
-        return this.parsers['Block'].parse();
-      case 'BooleanAndExpression':
-        return this.parsers['BooleanAndExpression'].parse();
-      case 'BooleanExpression':
-        return this.parsers['BooleanExpression'].parse();
-      case 'BooleanTerm':
-        return this.parsers['BooleanTerm'].parse();
-      case 'BooleanUnit':
-        return this.parsers['BooleanUnit'].parse();
-      case 'Condition':
-        return this.parsers['Condition'].parse();
-      case 'Empty': 
-        return this.parsers['Empty'].parse();
-      case 'Expression':
-        return this.parsers['Expression'].parse();
-      case 'Identifier':
-        return this.parsers['Identifier'].parse();
-      case 'If':
-        return this.parsers['If'].parse();
-      case 'Instruction':
-        return this.parsers['Instruction'].parse();
-      case 'Iterate':
-        return this.parsers['Iterate'].parse();
-      case 'Method':
-        return this.parsers['Method'].parse();
-      case 'MethodCall':
-        return this.parsers['MethodCall'].parse();
-      case 'Number':
-        return this.parsers['Number'].parse();
-      case 'NumberExpression':
-        return this.parsers['NumberExpression'].parse();
-      case 'NumberOperation':
-        return this.parsers['NumberOperation'].parse();
-      case 'Program':
-        return this.parsers['Program'].parse();
-      case 'Return':
-        return this.parsers['Return'].parse();
-      case 'While':
-        return this.parsers['While'].parse();
-      case 'Zero':
-        return this.parsers['Zero'].parse();
-    }
+    return this.parsers[nodeType].parse();
   }
 }
