@@ -18,6 +18,7 @@ export type NodeType =
   'Number' |
   'NumberExpression' |
   'NumberOperation' |
+  'Program' |
   'Return' |
   'While' |
   'Zero';

@@ -1,7 +1,7 @@
 import { BlockNode, BooleanExpressionNode, ExpressionNode, IfNode } from "../types";
-import { Parser, ParserHelpers } from "../types/parser";
+import { NodeParser, ParserHelpers } from "../types/parser";
 
-export class IfParser implements Parser {
+export class IfParser implements NodeParser {
   helpers: ParserHelpers;
 
   constructor(helpers: ParserHelpers) {

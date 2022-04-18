@@ -1,7 +1,7 @@
 import { BlockNode, BooleanExpressionNode, ExpressionNode, WhileNode } from "../types";
-import { Parser, ParserHelpers } from "../types/parser";
+import { NodeParser, ParserHelpers } from "../types/parser";
 
-export class WhileParser implements Parser {
+export class WhileParser implements NodeParser {
   helpers: ParserHelpers;
 
   constructor(helpers: ParserHelpers) {

@@ -7,6 +7,6 @@ export interface ParserHelpers {
   getLookAheadType: () => TokenType,
 }
 
-export interface Parser {
+export interface NodeParser {
   parse: () => ASTNode,
 }
