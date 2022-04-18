@@ -1,4 +1,4 @@
-import { BlockNode, BooleanAndExpressionNode, BooleanExpressionNode, BooleanTermNode, BooleanUnitNode, ConditionNode, EmptyNode, ExpressionNode, IdentifierNode, IfNode, InstructionNode, IterateNode, MethodCallNode, MethodNode, NodeType, NumberExpressionNode, NumberNode, NumberOperationNode, NumberOperatorType, NodeParser, ParserHelpers, ProgramNode, ReturnNode, Token, TokenType, WhileNode, ZeroNode } from "../types";
+import { NodeType, NodeParser, ParserHelpers, Token, TokenType } from "../types";
 import { Tokenizer } from "../tokenizer";
 import { ReturnParser } from "./return";
 import { ZeroParser } from "./zero";
@@ -21,8 +21,6 @@ import { BooleanExpressionParser } from "./boolean-expression";
 import { BooleanAndExpressionParser } from "./boolean-and-expression";
 import { BlockParser } from "./block";
 import { ProgramParser } from "./program";
-
-
 
 export class Parser {
   tokenizer: Tokenizer;
