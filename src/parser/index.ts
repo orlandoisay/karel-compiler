@@ -2,6 +2,10 @@ import { BlockNode, BooleanAndExpressionNode, BooleanExpressionNode, BooleanTerm
 import { Tokenizer } from "../tokenizer";
 import { ReturnParser } from "./return";
 import { ZeroParser } from "./zero";
+import { WhileParser } from "./while";
+import { NumberOperationParser } from "./number-operation";
+import { NumberExpressionParser } from "./number-expression";
+import { NumberParser } from "./number";
 
 const ExpressionStartingTokens: TokenType[] = [
   ';',
@@ -16,7 +20,7 @@ const ExpressionStartingTokens: TokenType[] = [
 export class ProgramParser {
   tokenizer: Tokenizer;
   lookAhead: Token | null;  
-  helpers: { [Type in ('Return' | 'Zero')]: Parser };
+  parsers: { [Type in ('Number' | 'NumberExpression' | 'NumberOperation' | 'Return' | 'While' | 'Zero')]: Parser };
 
   constructor() {
     this.tokenizer = new Tokenizer();
@@ -28,8 +32,12 @@ export class ProgramParser {
       eatToken: this.eatToken.bind(this),
     }
 
-    this.helpers = {
+    this.parsers = {
+      'Number': new NumberParser(parserHelpers),
+      'NumberExpression': new NumberExpressionParser(parserHelpers),
+      'NumberOperation': new NumberOperationParser(parserHelpers),
       'Return': new ReturnParser(parserHelpers),
+      'While': new WhileParser(parserHelpers),
       'Zero': new ZeroParser(parserHelpers),
     };
   }
@@ -94,19 +102,23 @@ export class ProgramParser {
       case 'MethodCall':
         return this.MethodCall();
       case 'Number':
-        return this.Number();
+        // return this.Number();
+        return this.parsers['Number'].parse();
       case 'NumberExpression':
-        return this.NumberExpression();
+        // return this.NumberExpression();
+        return this.parsers['NumberExpression'].parse();
       case 'NumberOperation':
-        return this.NumberOperation();
+        // return this.NumberOperation();
+        return this.parsers['NumberOperation'].parse();
       case 'Return':
         // return this.Return();
-        return this.helpers['Return'].parse();
+        return this.parsers['Return'].parse();
       case 'While':
-        return this.While();
+        // return this.While();
+        return this.parsers['While'].parse();
       case 'Zero':
         // return this.Zero();
-        return this.helpers['Zero'].parse();
+        return this.parsers['Zero'].parse();
     }
   }
 
@@ -263,7 +275,7 @@ export class ProgramParser {
       case 'Return':
         return this.eatNode('Return') as ReturnNode; //this.Return();
       case 'While':
-        return this.While();
+        return this.eatNode('While') as WhileNode; //return this.While();
       default:
         throw new SyntaxError(`Literal: Unexpected literal production`);
     }
@@ -394,98 +406,5 @@ export class ProgramParser {
       type: 'Number',
       value: Number(token.value),
     }
-  }
-
-  private NumberExpression(): NumberExpressionNode {
-    let value: IdentifierNode | NumberNode | NumberOperationNode;
-
-    switch (this.getLookAheadType()) {
-      case 'Identifier': {
-        value = this.eatNode('Identifier') as IdentifierNode;
-        break;
-      }
-      case 'Number': {
-        value = this.eatNode('Number') as NumberNode;
-        break;
-      }
-      case 'NumberOperator': {
-        value = this.eatNode('NumberOperation') as NumberOperationNode;
-        break;
-      }
-      default:
-        throw new SyntaxError(`Literal: Unexpected literal production`);
-    }
-
-    return {
-      type: 'NumberExpression',
-      value,
-    };
-  }
-
-  private NumberOperation(): NumberOperationNode {
-    const token = this.eatToken('NumberOperator');
-
-    this.eatToken('(');
-
-    const argument = this.eatNode('NumberExpression') as NumberExpressionNode;
-
-    this.eatToken(')');
-
-    return {
-      type: 'NumberOperation',
-      operator: token.value as NumberOperatorType,
-      argument,
-    };
-  }
-
-  private Return(): ReturnNode {
-    this.eatToken('Return');
-
-    let value: NumberExpressionNode | null = null;
-    if (this.getLookAheadType() !== ';') {
-      value = this.eatNode('NumberExpression') as NumberExpressionNode;
-    }      
-
-    this.eatToken(';');
-
-    return {
-      type: 'Expression',
-      name: 'Return',
-      value,
-    };
-  }
-
-  private While(): WhileNode {
-    this.eatToken('While');
-    this.eatToken('(');
-
-    const condition = this.eatNode('BooleanExpression') as BooleanExpressionNode;
-
-    this.eatToken(')');
-
-    const body: BlockNode | ExpressionNode = this.getLookAheadType() === '{'
-      ? this.eatNode('Block') as BlockNode
-      : this.eatNode('Expression') as ExpressionNode;
-
-    return {
-      type: 'Expression',
-      name: 'While',
-      condition,
-      body,
-    }
-  }
-
-  private Zero(): ZeroNode {
-    this.eatToken('Zero');
-    this.eatToken('(');
-
-    const argument = this.eatNode('NumberExpression') as NumberExpressionNode;
-
-    this.eatToken(')');
-
-    return {
-      type: 'Zero',
-      argument,
-    };
   }
 }
