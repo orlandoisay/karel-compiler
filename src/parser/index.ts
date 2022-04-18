@@ -25,10 +25,7 @@ import { ProgramParser } from "./program";
 export class Parser {
   tokenizer: Tokenizer;
   lookAhead: Token | null;  
-  parsers: { [Type in (
-    'Block' | 'BooleanAndExpression' |
-    'BooleanExpression' | 'BooleanTerm' | 'BooleanUnit' |'Condition' | 'Empty' | 'Expression' | 'Identifier' | 'If' | 'Instruction' |
-    'Iterate' | 'Method' | 'MethodCall' | 'Number' | 'NumberExpression' | 'NumberOperation' | 'Program' | 'Return' | 'While' | 'Zero')]: NodeParser };
+  parsers: { [Type in NodeType]: NodeParser };
 
   constructor() {
     this.tokenizer = new Tokenizer();
