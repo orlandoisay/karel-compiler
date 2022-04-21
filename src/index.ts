@@ -14,63 +14,63 @@ const world = {
   walls: [],
 };
 
-// const program = 
-// `
-  
-
-//   class program {
-
-//     define turnright(n) {
-//       iterate(n) turnleft();
-//     }
-
-//     program() {
-//       turnright(5);
-//     }
-//   }
-// `;
-
 const program = 
 `
+  
+
   class program {
-    define moveN(n) {
-      iterate(n) move();
-    }
 
-    define turnright() {
-      iterate(3) {
-        turnleft();
-      }
-    }
-
-    define atsa() {
-      some(pred(pred(5))); 
-      moveAllBeeper();
-      turnleft();
-      return;
-      return sdf; 
-      iterate(20) { turnleft(); } 
-
-      while(frontIsClear && !leftIsClear || iszero(n)) { 
-        move(); ; 
-      }
-
-      ;
-      ;
+    define turnright(n) {
+      iterate(n) turnleft();
     }
 
     program() {
-      if(anyBeepersInBeeperBag) {
-        move();
-      } else if(!facingWest) {
-        turnright();
-      } else 
-        pickbeeper();
-
-      turnoff();
+      turnright(5);
     }
-  } 
+  }
 `;
+
+// const program = 
+// `
+//   class program {
+//     define moveN(n) {
+//       iterate(n) move();
+//     }
+
+//     define turnright() {
+//       iterate(3) {
+//         turnleft();
+//       }
+//     }
+
+//     define atsa() {
+//       some(pred(pred(5))); 
+//       moveAllBeeper();
+//       turnleft();
+//       return;
+//       return sdf; 
+//       iterate(20) { turnleft(); } 
+
+//       while(frontIsClear && !leftIsClear || iszero(n)) { 
+//         move(); ; 
+//       }
+
+//       ;
+//       ;
+//     }
+
+//     program() {
+//       if(anyBeepersInBeeperBag) {
+//         move();
+//       } else if(!facingWest) {
+//         turnright();
+//       } else 
+//         pickbeeper();
+
+//       turnoff();
+//     }
+//   } 
+// `;
 
 const parser = new Parser();
 const result = parser.parse(program);

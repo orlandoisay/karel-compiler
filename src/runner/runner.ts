@@ -1,4 +1,4 @@
-import { BlockNode, ExpressionNode, InstructionNode, IterateNode, MethodCallNode, MethodNode, NumberExpressionNode, ProgramNode, WorldDescription } from "../types";
+import { BlockNode, ExpressionNode, InstructionIdentifierKeywordValue, InstructionNode, IterateNode, MethodCallNode, MethodNode, NumberExpressionNode, ProgramNode, WorldDescription } from "../types";
 import { NumberExpressionResolver } from "./number-expression";
 import { ScopeStack } from "./stack";
 import { World } from "./world";
@@ -80,7 +80,11 @@ export class Runner {
   }
 
   private runInstruction(instruction: InstructionNode) {
-    switch (instruction.instruction) {
+    switch (instruction.instruction as InstructionIdentifierKeywordValue) {
+      case 'pickbeeper': {
+        this.runPickBeeper();
+        break;
+      }
       case 'putbeeper': {
         this.runPutBeeper();
         break;
@@ -93,18 +97,20 @@ export class Runner {
         throw Error('Instruction handling not defined.')
       }
     }
+
+    this.printState();
+  }
+
+  private runPickBeeper() {
+    this.world.pickBeeper();
   }
 
   private runPutBeeper() {
     this.world.putBeeper();
-
-    this.printState();
   }
 
   private runTurnLeft() {
     this.world.turnleft();
-
-    this.printState();
   }
 
   private runIterate(node: IterateNode) {
