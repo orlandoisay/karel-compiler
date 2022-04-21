@@ -1,26 +1,26 @@
-import { NodeType, NodeParser, ParserHelpers, Token, TokenType } from "../types";
-import { Tokenizer } from "../tokenizer";
-import { ReturnParser } from "./return";
-import { ZeroParser } from "./zero";
-import { WhileParser } from "./while";
-import { NumberOperationParser } from "./number-operation";
-import { NumberExpressionParser } from "./number-expression";
-import { NumberParser } from "./number";
-import { MethodCallParser } from "./method-call";
-import { MethodParser } from "./method";
-import { IterateParser } from "./iterate";
-import { InstructionParser } from "./instruction";
-import { IfParser } from "./if";
-import { IdentifierParser } from "./identifier";
-import { EmptyParser } from "./empty";
-import { ExpressionParser } from "./expression";
-import { ConditionParser } from "./condition";
-import { BooleanUnitParser } from "./boolean-unit";
-import { BooleanTermParser } from "./boolean-term";
-import { BooleanExpressionParser } from "./boolean-expression";
-import { BooleanAndExpressionParser } from "./boolean-and-expression";
-import { BlockParser } from "./block";
-import { ProgramParser } from "./program";
+import { NodeType, NodeParser, ParserHelpers, Token, TokenType } from '../types';
+import { Tokenizer } from '../tokenizer';
+import { ReturnParser } from './return';
+import { ZeroParser } from './zero';
+import { WhileParser } from './while';
+import { NumberOperationParser } from './number-operation';
+import { NumberExpressionParser } from './number-expression';
+import { NumberParser } from './number';
+import { MethodCallParser } from './method-call';
+import { MethodParser } from './method';
+import { IterateParser } from './iterate';
+import { InstructionParser } from './instruction';
+import { IfParser } from './if';
+import { IdentifierParser } from './identifier';
+import { EmptyParser } from './empty';
+import { ExpressionParser } from './expression';
+import { ConditionParser } from './condition';
+import { BooleanUnitParser } from './boolean-unit';
+import { BooleanTermParser } from './boolean-term';
+import { BooleanExpressionParser } from './boolean-expression';
+import { BooleanAndExpressionParser } from './boolean-and-expression';
+import { BlockParser } from './block';
+import { ProgramParser } from './program';
 
 export class Parser {
   tokenizer: Tokenizer;
@@ -35,7 +35,7 @@ export class Parser {
       getLookAheadType: this.getLookAheadType.bind(this),
       eatNode: this.eatNode.bind(this),
       eatToken: this.eatToken.bind(this),
-    }
+    };
 
     this.parsers = {
       'Block': new BlockParser(parserHelpers),
@@ -87,7 +87,7 @@ export class Parser {
     }
 
     if (token.type !== tokenType) {
-      throw new SyntaxError(`Unexpected token "${token.value}", expected: "${tokenType}"`)
+      throw new SyntaxError(`Unexpected token "${token.value}", expected: "${tokenType}"`);
     }
 
     this.lookAhead = this.tokenizer.getNextToken();

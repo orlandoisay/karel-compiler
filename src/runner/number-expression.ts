@@ -1,4 +1,4 @@
-import { IdentifierNode, NumberExpressionNode, NumberNode, NumberOperationNode, Scope } from "../types"
+import { IdentifierNode, NumberExpressionNode, NumberNode, NumberOperationNode, Scope } from '../types';
 
 export class NumberExpressionResolver {
   scope: Scope;
@@ -15,12 +15,12 @@ export class NumberExpressionResolver {
 
   private resolveNumberExpression(expression: NumberExpressionNode): number {
     switch (expression.value.type) {
-      case 'Number':
-        return this.resolveNumber(expression.value);
-      case 'Identifier':
-        return this.resolveIdentifier(expression.value);
-      case 'NumberOperation':
-        return this.resolveOperation(expression.value);
+    case 'Number':
+      return this.resolveNumber(expression.value);
+    case 'Identifier':
+      return this.resolveIdentifier(expression.value);
+    case 'NumberOperation':
+      return this.resolveOperation(expression.value);
     }
   }
 

@@ -1,5 +1,5 @@
-import { ConditionNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { ConditionNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class ConditionParser  implements NodeParser {
   helpers: ParserHelpers;

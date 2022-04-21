@@ -1,5 +1,5 @@
-import { EmptyNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { EmptyNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class EmptyParser implements NodeParser {
   helpers: ParserHelpers;

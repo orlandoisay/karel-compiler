@@ -1,7 +1,7 @@
-import { BlockNode, ExpressionNode, InstructionIdentifierKeywordValue, InstructionNode, IterateNode, MethodCallNode, MethodNode, NumberExpressionNode, ProgramNode, WorldDescription } from "../types";
-import { NumberExpressionResolver } from "./number-expression";
-import { ScopeStack } from "./stack";
-import { World } from "./world";
+import { BlockNode, ExpressionNode, InstructionIdentifierKeywordValue, InstructionNode, IterateNode, MethodCallNode, MethodNode, NumberExpressionNode, ProgramNode, WorldDescription } from '../types';
+import { NumberExpressionResolver } from './number-expression';
+import { ScopeStack } from './stack';
+import { World } from './world';
 
 export class Runner {
   ast: ProgramNode;
@@ -37,11 +37,6 @@ export class Runner {
     return method;
   }
 
-
-  private end() {
-
-  }
-
   public run() {
     this.runProgram();
   }
@@ -58,44 +53,44 @@ export class Runner {
 
   private runStatement(statement: ExpressionNode) {
     switch (statement.name) {
-      case 'Empty': {
-        break;
-      }
-      case 'Instruction': {
-        this.runInstruction(statement as InstructionNode);
-        break;
-      }
-      case 'Iterate': {
-        this.runIterate(statement as IterateNode);
-        break;
-      }
-      case 'MethodCall': {
-        this.runMethodCall(statement as MethodCallNode);
-        break;
-      }
-      default: {
-        throw Error(`Statement handling not defined (${statement.name}).`)
-      }
+    case 'Empty': {
+      break;
+    }
+    case 'Instruction': {
+      this.runInstruction(statement as InstructionNode);
+      break;
+    }
+    case 'Iterate': {
+      this.runIterate(statement as IterateNode);
+      break;
+    }
+    case 'MethodCall': {
+      this.runMethodCall(statement as MethodCallNode);
+      break;
+    }
+    default: {
+      throw Error(`Statement handling not defined (${statement.name}).`);
+    }
     }
   }
 
   private runInstruction(instruction: InstructionNode) {
     switch (instruction.instruction as InstructionIdentifierKeywordValue) {
-      case 'pickbeeper': {
-        this.runPickBeeper();
-        break;
-      }
-      case 'putbeeper': {
-        this.runPutBeeper();
-        break;
-      }
-      case 'turnleft': {
-        this.runTurnLeft();
-        break;
-      }
-      default: {
-        throw Error('Instruction handling not defined.')
-      }
+    case 'pickbeeper': {
+      this.runPickBeeper();
+      break;
+    }
+    case 'putbeeper': {
+      this.runPutBeeper();
+      break;
+    }
+    case 'turnleft': {
+      this.runTurnLeft();
+      break;
+    }
+    default: {
+      throw Error('Instruction handling not defined.');
+    }
     }
 
     this.printState();
@@ -123,11 +118,11 @@ export class Runner {
         this.runStatement(node.body);
       } 
       else {
-        this.runStatementList(node.body)
+        this.runStatementList(node.body);
       }
     }
     
-    console.log('====== > ITERATE END < ===========')
+    console.log('====== > ITERATE END < ===========');
   }
 
   private runMethodCall(node: MethodCallNode) {
@@ -157,7 +152,7 @@ export class Runner {
       this.stack.push({
         identifier: methodCalled.param!.value,
         value,
-      })
+      });
     }
 
     this.runStatementList(methodCalled.body);

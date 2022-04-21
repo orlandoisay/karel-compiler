@@ -1,5 +1,5 @@
-import { BlockNode, BooleanExpressionNode, ExpressionNode, IfNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { BlockNode, BooleanExpressionNode, ExpressionNode, IfNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class IfParser implements NodeParser {
   helpers: ParserHelpers;

@@ -1,4 +1,4 @@
-import { ReservedKeywordSpecEntry, Token, TokenSpecEntry, TokenType } from "./types";
+import { ReservedKeywordSpecEntry, Token, TokenSpecEntry, TokenType } from './types';
 
 const Spec: TokenSpecEntry[] = [
   { type: 'Number', rule: /^\d+/ },
@@ -69,8 +69,8 @@ const ReservedKeywordsSpec: ReservedKeywordSpecEntry[] = [
 ];
 
 export class Tokenizer {
-  cursor: number = 0;
-  program: string = '';
+  cursor = 0;
+  program = '';
 
   init(program: string) {
     this.cursor = 0;
@@ -89,7 +89,7 @@ export class Tokenizer {
     const string = this.program.slice(this.cursor);
 
     for (const { type, rule } of Spec) {
-      let match = string.match(rule);
+      const match = string.match(rule);
 
       if (!match) {
         continue;
@@ -105,7 +105,7 @@ export class Tokenizer {
         return this.getNextToken();
       }
 
-      let value = match[0].toString();
+      const value = match[0].toString();
       let tokenType: TokenType = type;
 
       if (type === 'Identifier') {

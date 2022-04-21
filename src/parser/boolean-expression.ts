@@ -1,5 +1,5 @@
-import { BooleanAndExpressionNode, BooleanExpressionNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { BooleanAndExpressionNode, BooleanExpressionNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class BooleanExpressionParser implements NodeParser {
   helpers: ParserHelpers;
@@ -9,7 +9,7 @@ export class BooleanExpressionParser implements NodeParser {
   }
   
   public parse(): BooleanExpressionNode {
-    let terms: BooleanAndExpressionNode[] = [this.helpers.eatNode('BooleanAndExpression') as BooleanAndExpressionNode];
+    const terms: BooleanAndExpressionNode[] = [this.helpers.eatNode('BooleanAndExpression') as BooleanAndExpressionNode];
 
     while (this.helpers.getLookAheadType() === '||') {
       this.helpers.eatToken('||');

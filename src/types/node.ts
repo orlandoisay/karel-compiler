@@ -1,4 +1,4 @@
-import { NumberOperatorType } from "./token";
+import { NumberOperatorType } from './token';
 
 export type ExpressionNodeType =
   | 'Empty'

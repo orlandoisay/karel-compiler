@@ -1,5 +1,5 @@
-import { BlockNode, ExpressionNode, TokenType } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { BlockNode, ExpressionNode, TokenType } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 const StartingTokens: TokenType[] = [
   ';',
@@ -19,7 +19,7 @@ export class BlockParser implements NodeParser {
   }
   
   public parse(): BlockNode {
-    let expressions: ExpressionNode[] = [];
+    const expressions: ExpressionNode[] = [];
 
     this.helpers.eatToken('{');
 

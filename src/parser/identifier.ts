@@ -1,5 +1,5 @@
-import { IdentifierNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { IdentifierNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class IdentifierParser implements NodeParser {
   helpers: ParserHelpers;

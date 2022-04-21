@@ -1,5 +1,5 @@
-import { BlockNode, ExpressionNode, IterateNode, NumberExpressionNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { BlockNode, ExpressionNode, IterateNode, NumberExpressionNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class IterateParser implements NodeParser {
   helpers: ParserHelpers;

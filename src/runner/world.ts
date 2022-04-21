@@ -1,4 +1,4 @@
-import { Amount, Heap, KarelState, Orientation, Position, WorldDescription } from "../types";
+import { Amount, Heap, KarelState, Orientation, Position, WorldDescription } from '../types';
 
 // Direction to the left 
 const Left: { [O in Orientation]: Orientation } = {
@@ -27,7 +27,7 @@ export class World {
   }
 
   public getCurrentState() {
-    let heaps: Heap[] = [];
+    const heaps: Heap[] = [];
     this.heaps.forEach((amount, location) => {
       heaps.push({ 
         location,
@@ -71,7 +71,7 @@ export class World {
   private addBeeperToBag() {
     if (this.state.beepers !== 'Infinite') {
       this.state.beepers += 1;
-    };
+    }
   }
 
   private removeBeeperFromBag() {

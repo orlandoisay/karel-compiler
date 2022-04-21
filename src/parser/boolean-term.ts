@@ -1,5 +1,5 @@
-import { BooleanTermNode, BooleanUnitNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { BooleanTermNode, BooleanUnitNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class BooleanTermParser implements NodeParser {
   helpers: ParserHelpers;
@@ -9,7 +9,7 @@ export class BooleanTermParser implements NodeParser {
   }
   
   public parse(): BooleanTermNode {
-    let negated: boolean = false;
+    let negated = false;
 
     if (this.helpers.getLookAheadType() === '!') {
       this.helpers.eatToken('!');

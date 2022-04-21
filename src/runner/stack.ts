@@ -1,4 +1,4 @@
-import { Scope } from "../types";
+import { Scope } from '../types';
 
 export class ScopeStack {
   stack: Scope[] = [];

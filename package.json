@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "ts-node src/index.ts",
-    "build": "tsc src/index.ts"
+    "build": "tsc src/index.ts",
+    "lint": "eslint"
   },
   "dependencies": {
     "ts-node": "^10.7.0",

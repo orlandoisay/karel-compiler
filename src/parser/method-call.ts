@@ -1,5 +1,5 @@
-import { MethodCallNode, NumberExpressionNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { MethodCallNode, NumberExpressionNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class MethodCallParser implements NodeParser {
   helpers: ParserHelpers;

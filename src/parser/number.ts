@@ -1,5 +1,5 @@
-import { NumberNode } from "../types";
-import { NodeParser, ParserHelpers } from "../types/parser";
+import { NumberNode } from '../types';
+import { NodeParser, ParserHelpers } from '../types/parser';
 
 export class NumberParser implements NodeParser {
   helpers: ParserHelpers;
