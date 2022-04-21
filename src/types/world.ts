@@ -23,7 +23,7 @@ export interface Wall {
   to: Position,
 }
 
-export interface World {
+export interface WorldDescription {
   state: KarelState,  
   heaps: Heap[],
   walls: Wall[],
