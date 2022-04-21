@@ -1,4 +1,4 @@
-import { Token, TokenSpecEntry, TokenType } from "./types";
+import { ReservedKeywordSpecEntry, Token, TokenSpecEntry, TokenType } from "./types";
 
 const Spec: TokenSpecEntry[] = [
   { type: 'Number', rule: /^\d+/ },
@@ -19,65 +19,53 @@ const Spec: TokenSpecEntry[] = [
   { type: 'WhiteSpace', rule: /^\s+/ },
 ];
 
-const SpecReservedKeywords: TokenSpecEntry[] = [
-  // Class
-  { type: 'Class', rule: /^class$/ },
+const ReservedKeywordsSpec: ReservedKeywordSpecEntry[] = [
+  { type: 'Class', value: 'class' },
 
-  // Condition
-  { type: 'Condition', rule: /^frontIsClear$/ },
-  { type: 'Condition', rule: /^frontIsBlocked$/ },
-  { type: 'Condition', rule: /^leftIsClear$/ },
-  { type: 'Condition', rule: /^leftIsBlocked$/ },
-  { type: 'Condition', rule: /^rightIsClear$/ },
-  { type: 'Condition', rule: /^rightIsBlocked$/ },
-  { type: 'Condition', rule: /^nextToABeeper$/ },
-  { type: 'Condition', rule: /^notNextToABeeper$/ },
-  { type: 'Condition', rule: /^anyBeepersInBeeperBag$/ },
-  { type: 'Condition', rule: /^noBeepersInBeeperBag$/ },
-  { type: 'Condition', rule: /^facingNorth$/ },
-  { type: 'Condition', rule: /^facingSouth$/ },
-  { type: 'Condition', rule: /^facingEast$/ },
-  { type: 'Condition', rule: /^facingWest$/ },
-  { type: 'Condition', rule: /^notFacingNorth$/ },
-  { type: 'Condition', rule: /^notFacingSouth$/ },
-  { type: 'Condition', rule: /^notFacingEast$/ },
-  { type: 'Condition', rule: /^notFacingWest$/ },
+  { type: 'Condition', value: 'frontIsClear' },
+  { type: 'Condition', value: 'frontIsClear' },
+  { type: 'Condition', value: 'leftIsClear' },
+  { type: 'Condition', value: 'leftIsBlocked' },
+  { type: 'Condition', value: 'rightIsClear' },
+  { type: 'Condition', value: 'rightIsBlocked' },
+  { type: 'Condition', value: 'nextToABeeper' },
+  { type: 'Condition', value: 'notNextToABeeper' },
+  { type: 'Condition', value: 'anyBeepersInBeeperBag' },
+  { type: 'Condition', value: 'noBeepersInBeeperBag' },
+  { type: 'Condition', value: 'facingNorth' },
+  { type: 'Condition', value: 'facingSouth' },
+  { type: 'Condition', value: 'facingEast' },
+  { type: 'Condition', value: 'facingWest' },
+  { type: 'Condition', value: 'notFacingNorth' },
+  { type: 'Condition', value: 'notFacingSouth' },
+  { type: 'Condition', value: 'notFacingEast' },
+  { type: 'Condition', value: 'notFacingWest' },
 
-  // Else
-  { type: 'Else', rule: /^else$/ },
+  { type: 'Else', value: 'else' },
 
-  // If
-  { type: 'If', rule: /^if$/ },
+  { type: 'If', value: 'if' },
 
-  // Instruction
-  { type: 'InstructionIdentifier', rule: /^move$/ },
-  { type: 'InstructionIdentifier', rule: /^turnleft$/ },
-  { type: 'InstructionIdentifier', rule: /^putbeeper$/ },
-  { type: 'InstructionIdentifier', rule: /^pickbeeper$/ },
-  { type: 'InstructionIdentifier', rule: /^turnoff$/ },
+  { type: 'InstructionIdentifier', value: 'move' },
+  { type: 'InstructionIdentifier', value: 'turnleft' },
+  { type: 'InstructionIdentifier', value: 'putbeeper' },
+  { type: 'InstructionIdentifier', value: 'pickbeeper' },
+  { type: 'InstructionIdentifier', value: 'turnoff' },
 
-  // Iterate
-  { type: 'Iterate', rule: /^iterate$/ },
-  
-  // MethodType
-  { type: 'MethodType', rule: /^void$/ },
-  { type: 'MethodType', rule: /^define$/ },
+  { type: 'Iterate', value: 'iterate' },
 
-  // NumberOperator
-  { type: 'NumberOperator', rule: /^pred$/ },
-  { type: 'NumberOperator', rule: /^succ$/ },
+  { type: 'MethodType', value: 'void' },
+  { type: 'MethodType', value: 'define' },
 
-  // Program
-  { type: 'Program', rule: /^program$/ },
+  { type: 'NumberOperator', value: 'pred' },
+  { type: 'NumberOperator', value: 'succ' },
 
-  // Return
-  { type: 'Return', rule: /^return$/ },
+  { type: 'Program', value: 'program' },
 
-  // While
-  { type: 'While', rule: /^while$/ },
+  { type: 'Return', value: 'return' },
 
-  // Zero
-  { type: 'Zero', rule: /^iszero$/ }
+  { type: 'While', value: 'while' },
+
+  { type: 'Zero', value: 'iszero' },
 ];
 
 export class Tokenizer {
@@ -137,8 +125,14 @@ export class Tokenizer {
   }
 
   private getMatchingKeyword(identifier: string): TokenType | null {
-    for (const { type, rule } of SpecReservedKeywords) {
-      if (identifier.match(rule)) {
+    // for (const { type, rule } of SpecReservedKeywords) {
+    //   if (identifier.match(rule)) {
+    //     return type;
+    //   }
+    // }
+
+    for (const { type, value } of ReservedKeywordsSpec) {
+      if (identifier === value) {
         return type;
       }
     }
