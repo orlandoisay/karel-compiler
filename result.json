@@ -5,7 +5,7 @@
       "type": "Method",
       "name": {
         "type": "Identifier",
-        "value": "moveN"
+        "value": "turnright"
       },
       "param": {
         "type": "Identifier",
@@ -27,209 +27,8 @@
             "body": {
               "type": "Expression",
               "name": "Instruction",
-              "instruction": "move"
+              "instruction": "turnleft"
             }
-          }
-        ]
-      }
-    },
-    {
-      "type": "Method",
-      "name": {
-        "type": "Identifier",
-        "value": "turnright"
-      },
-      "param": null,
-      "body": {
-        "type": "Block",
-        "expressions": [
-          {
-            "type": "Expression",
-            "name": "Iterate",
-            "argument": {
-              "type": "NumberExpression",
-              "value": {
-                "type": "Number",
-                "value": 3
-              }
-            },
-            "body": {
-              "type": "Block",
-              "expressions": [
-                {
-                  "type": "Expression",
-                  "name": "Instruction",
-                  "instruction": "turnleft"
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "Method",
-      "name": {
-        "type": "Identifier",
-        "value": "atsa"
-      },
-      "param": null,
-      "body": {
-        "type": "Block",
-        "expressions": [
-          {
-            "type": "Expression",
-            "name": "MethodCall",
-            "method": "some",
-            "argument": {
-              "type": "NumberExpression",
-              "value": {
-                "type": "NumberOperation",
-                "operator": "pred",
-                "argument": {
-                  "type": "NumberExpression",
-                  "value": {
-                    "type": "NumberOperation",
-                    "operator": "pred",
-                    "argument": {
-                      "type": "NumberExpression",
-                      "value": {
-                        "type": "Number",
-                        "value": 5
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          {
-            "type": "Expression",
-            "name": "MethodCall",
-            "method": "moveAllBeeper",
-            "argument": null
-          },
-          {
-            "type": "Expression",
-            "name": "Instruction",
-            "instruction": "turnleft"
-          },
-          {
-            "type": "Expression",
-            "name": "Return",
-            "value": null
-          },
-          {
-            "type": "Expression",
-            "name": "Return",
-            "value": {
-              "type": "NumberExpression",
-              "value": {
-                "type": "Identifier",
-                "value": "sdf"
-              }
-            }
-          },
-          {
-            "type": "Expression",
-            "name": "Iterate",
-            "argument": {
-              "type": "NumberExpression",
-              "value": {
-                "type": "Number",
-                "value": 20
-              }
-            },
-            "body": {
-              "type": "Block",
-              "expressions": [
-                {
-                  "type": "Expression",
-                  "name": "Instruction",
-                  "instruction": "turnleft"
-                }
-              ]
-            }
-          },
-          {
-            "type": "Expression",
-            "name": "While",
-            "condition": {
-              "type": "BooleanExpression",
-              "terms": [
-                {
-                  "type": "BooleanAndExpression",
-                  "terms": [
-                    {
-                      "type": "BooleanTerm",
-                      "negated": false,
-                      "value": {
-                        "type": "BooleanUnit",
-                        "value": {
-                          "type": "Condition",
-                          "value": "frontIsClear"
-                        }
-                      }
-                    },
-                    {
-                      "type": "BooleanTerm",
-                      "negated": true,
-                      "value": {
-                        "type": "BooleanUnit",
-                        "value": {
-                          "type": "Condition",
-                          "value": "leftIsClear"
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
-                  "type": "BooleanAndExpression",
-                  "terms": [
-                    {
-                      "type": "BooleanTerm",
-                      "negated": false,
-                      "value": {
-                        "type": "BooleanUnit",
-                        "value": {
-                          "type": "Zero",
-                          "argument": {
-                            "type": "NumberExpression",
-                            "value": {
-                              "type": "Identifier",
-                              "value": "n"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            "body": {
-              "type": "Block",
-              "expressions": [
-                {
-                  "type": "Expression",
-                  "name": "Instruction",
-                  "instruction": "move"
-                },
-                {
-                  "type": "Expression",
-                  "name": "Empty"
-                }
-              ]
-            }
-          },
-          {
-            "type": "Expression",
-            "name": "Empty"
-          },
-          {
-            "type": "Expression",
-            "name": "Empty"
           }
         ]
       }
@@ -240,84 +39,15 @@
     "expressions": [
       {
         "type": "Expression",
-        "name": "If",
-        "condition": {
-          "type": "BooleanExpression",
-          "terms": [
-            {
-              "type": "BooleanAndExpression",
-              "terms": [
-                {
-                  "type": "BooleanTerm",
-                  "negated": false,
-                  "value": {
-                    "type": "BooleanUnit",
-                    "value": {
-                      "type": "Condition",
-                      "value": "anyBeepersInBeeperBag"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "ifBody": {
-          "type": "Block",
-          "expressions": [
-            {
-              "type": "Expression",
-              "name": "Instruction",
-              "instruction": "move"
-            }
-          ]
-        },
-        "elseBody": {
-          "type": "Expression",
-          "name": "If",
-          "condition": {
-            "type": "BooleanExpression",
-            "terms": [
-              {
-                "type": "BooleanAndExpression",
-                "terms": [
-                  {
-                    "type": "BooleanTerm",
-                    "negated": true,
-                    "value": {
-                      "type": "BooleanUnit",
-                      "value": {
-                        "type": "Condition",
-                        "value": "facingWest"
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          "ifBody": {
-            "type": "Block",
-            "expressions": [
-              {
-                "type": "Expression",
-                "name": "MethodCall",
-                "method": "turnright",
-                "argument": null
-              }
-            ]
-          },
-          "elseBody": {
-            "type": "Expression",
-            "name": "Instruction",
-            "instruction": "pickbeeper"
+        "name": "MethodCall",
+        "method": "turnright",
+        "argument": {
+          "type": "NumberExpression",
+          "value": {
+            "type": "Number",
+            "value": 5
           }
         }
-      },
-      {
-        "type": "Expression",
-        "name": "Instruction",
-        "instruction": "turnoff"
       }
     ]
   }
