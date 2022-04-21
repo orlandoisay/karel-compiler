@@ -72,7 +72,7 @@ export class Tokenizer {
   cursor = 0;
   program = '';
 
-  init(program: string) {
+  constructor(program: string) {
     this.cursor = 0;
     this.program = program; 
   }

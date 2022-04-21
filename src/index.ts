@@ -72,8 +72,8 @@ const program =
 //   } 
 // `;
 
-const parser = new Parser();
-const result = parser.parse(program);
+const parser = new Parser(program);
+const result = parser.parse();
 
 // const runner = new Runner(result, world);
 // runner.run();

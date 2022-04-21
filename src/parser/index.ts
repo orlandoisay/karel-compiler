@@ -27,9 +27,9 @@ export class Parser {
   lookAhead: Token | null;  
   parsers: { [Type in NodeType]: NodeParser };
 
-  constructor() {
-    this.tokenizer = new Tokenizer();
-    this.lookAhead = null;
+  constructor(program: string) {
+    this.tokenizer = new Tokenizer(program);
+    this.lookAhead = this.tokenizer.getNextToken();
 
     const parserHelpers: ParserHelpers = {
       getLookAheadType: this.getLookAheadType.bind(this),
@@ -62,10 +62,7 @@ export class Parser {
     };
   }
 
-  public parse(program: string) {
-    this.tokenizer.init(program);
-    this.lookAhead = this.tokenizer.getNextToken();
-
+  public parse() {
     return this.eatNode('Program');
   }
 
