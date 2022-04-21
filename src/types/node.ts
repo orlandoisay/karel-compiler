@@ -1,26 +1,29 @@
 import { NumberOperatorType } from "./token";
 
+export type ExpressionNodeType =
+  | 'Empty'
+  | 'If'
+  | 'Instruction'
+  | 'Iterate'
+  | 'MethodCall'
+  | 'Return'
+  | 'While';
+
 export type NodeType = 
+  ExpressionNodeType |
   'Block' |
   'BooleanAndExpression' |
   'BooleanExpression' |
   'BooleanTerm' |
   'BooleanUnit' |
   'Condition' |
-  'Empty' |
   'Expression' |
   'Identifier' |
-  'If' |
-  'Instruction' |
-  'Iterate' |
   'Method' |
-  'MethodCall' |
   'Number' |
   'NumberExpression' |
   'NumberOperation' |
   'Program' |
-  'Return' |
-  'While' |
   'Zero';
 
 export interface ASTNode {
@@ -69,7 +72,7 @@ export interface EmptyNode extends ExpressionNode {
 
 export interface ExpressionNode extends ASTNode {
   type: 'Expression',
-  name: string,
+  name: ExpressionNodeType,
 }
 
 export interface IdentifierNode extends ASTNode {
