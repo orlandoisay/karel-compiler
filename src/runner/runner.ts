@@ -127,30 +127,27 @@ export class Runner {
 
   private runMethodCall(node: MethodCallNode) {
     const methodCalled: MethodNode  = this.getMethod(node.method);
-
-    const methodRequiresArg = methodCalled.param != null;
-    const callHasParam = node.argument != null;
-
-    if (methodRequiresArg && !callHasParam) {
-      throw Error(`Method "${methodCalled.name}" requires an argument "${methodCalled.param!.value}".`);
+    
+    if (methodCalled.param !== null && node.argument === null) {
+      throw Error(`Method "${methodCalled.name}" requires an argument "${methodCalled.param.value}".`);
     }
 
-    if (!methodRequiresArg && callHasParam) {
+    if (methodCalled.param === null && node.argument !== null) {
       throw Error(`Method "${methodCalled.name}" requires 0 arguments, but has 1.`);
     }
 
-    if (!methodRequiresArg && !callHasParam) {
+    if (methodCalled.param === null && node.argument === null) {
       this.stack.push({
         identifier: null,
         value: 0,
       });
     }
     
-    if (methodRequiresArg && callHasParam) {
-      const value = this.evalNumberExpression(node.argument!); 
+    if (methodCalled.param !== null && node.argument !== null) {
+      const value = this.evalNumberExpression(node.argument); 
 
       this.stack.push({
-        identifier: methodCalled.param!.value,
+        identifier: methodCalled.param.value,
         value,
       });
     }
