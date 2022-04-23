@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "ts-node src/index.ts",
-    "build": "tsc src/index.ts",
+    "build": "tsc src/index.ts --outDir ./dist/",
     "lint": "eslint",
     "test": "jest"
   },
