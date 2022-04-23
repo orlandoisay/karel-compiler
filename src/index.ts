@@ -1,6 +1,7 @@
-import fs from 'fs';
-import { Parser } from './parser';
-import { Runner } from './runner';
+const fs = require('fs');
+
+const { Parser } = require('./parser');
+const { Runner } = require('./runner');
 
 const world = {
   state: {
