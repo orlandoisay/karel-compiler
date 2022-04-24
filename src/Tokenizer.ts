@@ -125,12 +125,6 @@ export class Tokenizer {
   }
 
   private getMatchingKeyword(identifier: string): TokenType | null {
-    // for (const { type, rule } of SpecReservedKeywords) {
-    //   if (identifier.match(rule)) {
-    //     return type;
-    //   }
-    // }
-
     for (const { type, value } of ReservedKeywordsSpec) {
       if (identifier === value) {
         return type;
